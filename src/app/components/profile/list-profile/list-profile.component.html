@@ -1,0 +1,28 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header">{{this.title}}</div>
+    <p class="content-sub-header">Liste des salles disponibles avec possibilité d'ajouter, de modifier ou d'en supprimer.</p>
+  </div>
+</div>
+
+<!--Confirm Action Starts-->
+<section id="action">
+  <div class="row text-left">
+    <div class="col-sm-12">
+      <div class="card">
+<!--        <div class="card-header">-->
+<!--          <h4 class="card-title">Confirm Action</h4>-->
+<!--        </div>-->
+        <div class="card-content">
+          <div class="card-body">
+            <div class="table-responsive">
+              <ng2-smart-table [settings]="alertsettings" [source]="alertSource" (deleteConfirm)="onDeleteConfirm($event)"
+                (editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)"></ng2-smart-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Confirm Action Ends-->

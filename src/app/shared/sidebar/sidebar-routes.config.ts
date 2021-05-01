@@ -7,32 +7,30 @@ export const ROUTES: RouteInfo[] = [
         path: '/dashboard', title: 'Accueil', icon: 'ft-box', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []
     },
     {
-        path: '/salle', title: 'Salles', icon: 'ft-home',class: '', badge: '', badgeClass: '', isExternalLink: false,
+        path: '/salles', title: 'Salles', icon: 'ft-home',class: '', badge: '', badgeClass: '', isExternalLink: false,
         submenu: []
     },
-
-    { path: '/filiere/list', title: 'Filieres', icon: 'ft-droplet', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-
-   {
+    {
+        path: '/professeurs', title: 'Professeurs', icon: 'ft-home',class: '', badge: '', badgeClass: '', isExternalLink: false,
+        submenu: []
+    },
+    { path: '/filieres/list', title: 'Filieres', icon: 'ft-droplet', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    {
         path: '', title: 'Emploi du temps', icon: 'ft-calendar',class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [
-            { path: '/emploi/list', title: 'Par salle ', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { path: '/emploi/add', title: 'Par Filiere ', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/emplois/list', title: 'Par salle ', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/emplois/add', title: 'Par Filiere ', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
     },
 
 
-    { path: '', title: 'Profiles', icon: 'ft-mail', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
-    { path: '/profile/list', title: 'Liste ', icon: 'ft-file-text', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-    { path: '/profile/add', title: 'Ajouter ', icon: 'ft-file-text', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-
-    ] },
+    { path: '/profiles', title: 'Profiles', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 
 
-    { path: '', title: 'Dispatchers', icon: 'ft-message-square', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
-    { path: '/dispatcher/list', title: 'Liste ', icon: 'ft-file-text', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-    { path: '/dispatcher/add', title: 'Ajouter ', icon: 'ft-file-text', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-    ] },
+    // { path: '', title: 'Dispatchers', icon: 'ft-message-square', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
+    // { path: '/dispatcher/list', title: 'Liste ', icon: 'ft-file-text', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    // { path: '/dispatcher/add', title: 'Ajouter ', icon: 'ft-file-text', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    // ] },
 
    /*
     { path: '/chat-ngrx', title: 'Clients', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [

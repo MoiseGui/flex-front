@@ -1,0 +1,27 @@
+@import '~@angular/material/theming';
+@import "material-colors";
+
+
+//media queries
+$xsmall: 319.99px !default;
+$small: 599.99px !default;
+$medium: 768px !default;
+$large: 1024px !default;
+$xlarge: 1280px !default;
+$navbar-breakpoint: 1000px !default;
+
+// fonts
+$font-family: Roboto,'Helvetica Neue',sans-serif !default;
+
+// loading indicator
+$loading-indicator-color: mat-color($app-accent, default) !default;
+$loading-indicator-width: 64px !default;
+$loading-indicator-height: 64px !default;
+
+
+// modals
+$modal-default-width: 400px !default;
+$modal-wide-width: 500px !default;
+
+//Mat
+$app-foreground: $mat-light-theme-foreground;

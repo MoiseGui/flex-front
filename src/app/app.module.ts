@@ -1,3 +1,5 @@
+import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule, MatDialogModule} from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -19,6 +21,7 @@ import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
+import {CrupdateProfesseurModalComponent} from './components/professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
 import { SharedModule } from './shared/shared.module';
@@ -36,16 +39,21 @@ export function createTranslateLoader(http: HttpClient) {
 }
 @NgModule({
   declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, ToastrComponent],
-  imports: [BrowserModule,BrowserAnimationsModule,ToastrModule.forRoot(), TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),HttpClientModule,NgbModule,SharedModule, AppRoutingModule, PerfectScrollbarModule,NgbModule, CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory })],
+  imports: [BrowserModule, BrowserAnimationsModule, ToastrModule.forRoot(), TranslateModule.forRoot({
+    loader: {
+      provide: TranslateLoader,
+      useFactory: createTranslateLoader,
+      deps: [HttpClient]
+    }
+  }),
+    HttpClientModule, MatDialogModule, MatButtonModule, NgbModule, SharedModule, AppRoutingModule, PerfectScrollbarModule, NgbModule, CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: momentAdapterFactory
+    }), ReactiveFormsModule],
   providers: [ AuthService,
     AuthGuard,
     DragulaService,
+    FormBuilder,
     NGXToastrService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
@@ -53,5 +61,8 @@ export function createTranslateLoader(http: HttpClient) {
     },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }],
   bootstrap: [AppComponent],
+  entryComponents:[
+    CrupdateProfesseurModalComponent,
+  ]
 })
 export class AppModule {}

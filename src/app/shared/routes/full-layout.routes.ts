@@ -8,16 +8,20 @@ export const Full_ROUTES: Routes = [
     loadChildren: () => import('../../components/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
-    path:'salle',
+    path:'salles',
     loadChildren:()=> import('../../components/salle/salle.module').then(m=>m.SalleModule)
   },
   {
-    path:'filiere',
+    path:'filieres',
      loadChildren:()=> import('../../components/filiere/filiere.module').then(m=>m.FiliereModule)
   },
   {
-    path:'profile',
+    path:'profiles',
      loadChildren:()=> import('../../components/profile/profile.module').then(m=>m.ProfileModule),
+  },
+  {
+    path:'professeurs',
+     loadChildren:()=> import('../../components/professeur/professeur.module').then(m=>m.ProfesseurModule),
   },
   // {
   //   path:'dispatcher',

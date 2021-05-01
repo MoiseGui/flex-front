@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="data.professeur" >Update professeur</h2>
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="!data.professeur" >Create a new professor</h2>
+  <button type="button" (click)="close()" class="close-button no-style" tabindex="-1"><i class="ft-x font-medium-3 mr-2"></i></button>
+</div>
+
+<form autocomplete="off" (submit)="confirm()" *ngIf="errors$ | async as errors" [formGroup]="form" ngNativeValidate>
+  <div class="many-inputs mat-dialog-content" mat-dialog-content>
+    <div class="input-container">
+      <label for="nom" >Nom</label>
+      <input type="text" formControlName="nom" id="nom" required>
+      <div class="error" *ngIf="errors.nom">{{errors.nom}}</div>
+    </div>
+
+    <div class="input-container">
+      <label for="prenom" >Prénom</label>
+      <input type="text" formControlName="prenom" id="prenom" required>
+      <div class="error" *ngIf="errors.prenom">{{errors.prenom}}</div>
+    </div>
+
+    <div class="input-container">
+      <label for="email" >Email</label>
+      <input type="email" formControlName="email" id="email" required>
+      <div class="error" *ngIf="errors.email">{{errors.email}}</div>
+    </div>
+
+    <div class="setting-container">
+      <mat-slide-toggle  formControlName="admin" id="admin" >Admin</mat-slide-toggle>
+      <p >Define if the professor is an admin</p>
+      <div class="error" *ngIf="errors.admin">{{errors.admin}}</div>
+    </div>
+
+  </div>
+
+  <div class="buttons right mat-dialog-actions" mat-dialog-actions>
+    <button (click)="close()" type="button" class="button cancel" mat-button >Cancel</button>
+    <button type="submit" mat-raised-button color="accent" class="action-button" [disabled]="loading$ | async">
+      <span *ngIf="data.professeur" >Update</span>
+      <span *ngIf="!data.professeur" >Create</span>
+    </button>
+  </div>
+</form>

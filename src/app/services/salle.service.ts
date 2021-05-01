@@ -7,7 +7,7 @@ import {Salle} from '../models/salle';
   providedIn: 'root'
 })
 export class SalleService {
-  readonly API = 'http://localhost:8080/salles';
+  readonly API = 'http://localhost:3000/salles';
   constructor(
     private http: HttpClient
   ) { }
@@ -17,7 +17,7 @@ export class SalleService {
   }
 
   updateSalle(salle: Salle): Observable<any>{
-    return this.http.put(`${this.API}/${salle._id}`, {nom: salle._nom});
+    return this.http.put(`${this.API}/${salle.id}`, {nom: salle.nom});
   }
 
   addSalle(nom: string): Observable<any> {

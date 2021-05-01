@@ -37,7 +37,7 @@ export class SalleState {
     const salles = this.salles$.getValue();
 
     salles.forEach(element => {
-      if(element._id == salle._id) element._nom = salle._nom;
+      if(element.id == salle.id) element.nom = salle.nom;
     });
 
     this.salles$.next([...salles]);
@@ -46,7 +46,7 @@ export class SalleState {
   removeSalle(id: number){
     let salles = this.salles$.getValue();
 
-    salles = salles.filter((salle) => salle._id != id)
+    salles = salles.filter((salle) => salle.id != id)
 
     this.salles$.next([...salles]);
   }

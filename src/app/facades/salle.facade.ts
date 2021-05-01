@@ -33,7 +33,7 @@ export class SalleFacade {
   addSalles(nom: string): Observable<string> {
     let message = new Subject<string>();
     this.salleService.addSalle(nom).subscribe(response => {
-      if(!response._nom){
+      if(!response.nom){
         // this.setError(response.message);
         console.log(response)
         message.next(response.message);
@@ -98,7 +98,7 @@ export class SalleFacade {
   updatesalle(salle:Salle, old: Salle) {
     this.salleState.updateSalle(salle);
     return this.salleService.updateSalle(salle).subscribe(response => {
-      if(!response._nom || response._nom != salle._nom){
+      if(!response.nom || response.nom != salle.nom){
         this.setError(response.message);
         // console.log("old",old)
         this.salleState.updateSalle(old);
@@ -110,12 +110,12 @@ export class SalleFacade {
   removeSalle(id: number){
     this.salleService.removeSalle(id).subscribe(response => {
         // console.log("reponse",response)
-      if(response._nom){
-        this.toastService.typeSuccess(`Class room ${response._nom} deleted successfully`);
+      if(response.nom){
+        this.toastService.typeSuccess(`Class room ${response.nom} deleted successfully`);
         this.salleState.removeSalle(id);
       }
       else{
-        this.setError(`An error has occurred while trying to delete the class room ${response._nom}`);
+        this.setError(`An error has occurred while trying to delete the class room ${response.nom}`);
       }
     });
   }

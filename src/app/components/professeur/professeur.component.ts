@@ -1,22 +1,25 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {LocalDataSource} from 'ng2-smart-table';
 import {Observable} from 'rxjs';
 import swal from 'sweetalert2';
-import {SalleFacade} from '../../facades/salle.facade';
-import {Salle} from '../../models/salle';
+import {ProfesseurFacade} from '../../facades/professeur.facade';
+import {Professeur} from '../../models/professeur';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
+import {Modal} from '../../shared/ui/modal.service';
+import {CrupdateProfesseurModalComponent} from './crupdate-professeur-modal/crupdate-professeur-modal.component';
 
 @Component({
-  selector: 'app-salle',
-  templateUrl: './salle.component.html',
-  styleUrls: ['./salle.component.scss']
+  selector: 'app-professeur',
+  templateUrl: './professeur.component.html',
+  styleUrls: ['./professeur.component.scss']
 })
-export class SalleComponent implements OnInit {
+export class ProfesseurComponent implements OnInit {
 
   public title:String = "";
 
-  salles$ : Observable<Salle[]>;
+  professeurs$ : Observable<Professeur[]>;
 
   editing = {};
 
@@ -30,7 +33,8 @@ export class SalleComponent implements OnInit {
 
   constructor(
     private activatedRoute:ActivatedRoute,
-    private salleFacade: SalleFacade,
+    private professeurFacade: ProfesseurFacade,
+    private modal: Modal,
   ) {
 
     //Get the title of the page from the routing
@@ -41,23 +45,23 @@ export class SalleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.salles$ = this.salleFacade.getSalles$();
+    this.professeurs$ = this.professeurFacade.getProfesseurs$();
 
     // Fill the rows with the rooms
-    this.salles$.subscribe(salles => {
-      this.rows = salles;
-      this.temp = salles;
+    this.professeurs$.subscribe(profs => {
+      this.rows = profs;
+      this.temp = profs;
       // console.log("Les données",this.rows);
     });
 
     // whenever there is an error
-    this.salleFacade.getError$().subscribe(message => {
+    this.professeurFacade.getError$().subscribe(message => {
       // "" means there is no error
       if(message != "") {
         // alert(message);
         this.alertErrorMessage(message);
         // seet no error after handling the error
-        this.salleFacade.setError("");
+        this.professeurFacade.setError("");
       }
     });
   }
@@ -67,16 +71,15 @@ export class SalleComponent implements OnInit {
     alertFunctions.typeError(message);
   }
 
-  addSalle(){
-    this.salleFacade.addSallesDialog(
-      "Ajouter une salle",
-      "text",
-      this.salleFacade
-    );
+  showCrupdateProfessor(professeur?: Professeur){
+    this.modal.show(CrupdateProfesseurModalComponent, {professeur}).afterClosed().subscribe(data => {
+      if ( ! data) return;
+      // this.refreshCompany();
+    });
   }
 
 
-  removeSalle(id: number) {
+  removeProfesseur(id: number) {
     this.confirmDelete(id);
   }
 
@@ -95,22 +98,6 @@ export class SalleComponent implements OnInit {
     this.table.offset = 0;
   }
 
-  // Editing room name code
-  async updateValue(event, cell, rowIndex) {
-
-    this.editing[rowIndex + '-' + cell] = false;
-
-    const old = {...this.rows[rowIndex]};
-    const salle = {...this.rows[rowIndex]};
-
-    salle.nom = event.target.value;
-
-    this.salleFacade.updatesalle(salle, old);
-    // this.rows[rowIndex][cell] = response.nom;
-    // this.rows = [...this.rows];
-
-  }
-
   // Confirm Button Action
   confirmDelete(id: number) {
     swal.fire({
@@ -124,14 +111,14 @@ export class SalleComponent implements OnInit {
     }).then((result) => {
       // If confirmed
       if (result.value) {
-        this.salleFacade.removeSalle(id);
-        // swal.fire(
-        //   'Deleted!',
-        //   'Your file has been deleted.',
-        //   'success'
-        // )
+        this.professeurFacade.removeProfesseur(id);
       }
     })
+  }
+
+  // used to sure Yes for True and No for False
+  yesOrNo(value): string{
+    return value==true ? "Yes" : "No";
   }
 
 }

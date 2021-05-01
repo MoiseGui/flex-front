@@ -9,28 +9,38 @@
   <div class="row">
     <div class="col-sm-12">
       <p><a href="javascript:void(0)" (click)="addSalle()" class="btn btn-raised mr-1 shadow-z-2 btn-primary">Add a new class room</a></p>
-      <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='Type to filter the name column...' (keyup)='updateFilter($event)'
-      />
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" style="display: inline-block">Salles</h4>
+          <input type='text' style='padding:8px;margin:15px auto;width:30%; display: inline-block; float: right' placeholder='Type to filter the name column...' (keyup)='updateFilter($event)'
+          />
+        </div>
+        <div class="card-content">
+          <div class="card-body">
       <ngx-datatable #mydatatable class="bootstrap" [headerHeight]="50" [limit]="5" [columnMode]="'force'" [footerHeight]="50"
-                     [rowHeight]="'auto'" [rows]="rows" [columns]="columns">
-        <ngx-datatable-column name="Id" prop="_id">
+                     [rowHeight]="'auto'" [rows]="rows">
+        <ngx-datatable-column name="Numéro" prop="id">
           <ng-template ngx-datatable-cell-template let-value="value">
             {{value}}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Nom" prop="_nom">
+        <ngx-datatable-column name="Nom" prop="nom">
           <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                      <span title="Double click to edit" (dblclick)="editing[rowIndex + '-_nom'] = true" *ngIf="!editing[rowIndex + '-_nom']">
+                      <span title="Double click to edit" (dblclick)="editing[rowIndex + '-nom'] = true" *ngIf="!editing[rowIndex + '-nom']">
                           {{value}}
                       </span>
-            <input autofocus (blur)="updateValue($event, '_nom', rowIndex)" *ngIf="editing[rowIndex+ '-_nom']" type="text" [value]="value"
+            <input autofocus (blur)="updateValue($event, 'nom', rowIndex)" *ngIf="editing[rowIndex+ '-nom']" type="text" [value]="value"
             />
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Remove" prop="_id" sortable="false">
+        <ngx-datatable-column name="Remove" prop="id" sortable="false">
           <ng-template ngx-datatable-cell-template let-value="value">
                 <span title="Remove">
-                  <a href="javascript:void(0)" (click)="removeSalle(value)" class="btn btn-danger mr-1 btn-fab"><i class="fa fa-trash-o"></i></a>
+<!--                  <a href="javascript:void(0)" (click)="removeSalle(value)" class="btn btn-danger mr-1 btn-fab"><i class="fa fa-trash-o"></i></a>-->
+                  <a class="danger p-0" href="javascript:void(0)" (click)="removeSalle(value)" data-original-title="" title="Remove">
+                    <i class="ft-x font-medium-3 mr-2"></i>
+                  </a>
                 </span>
           </ng-template>
         </ngx-datatable-column>
@@ -51,6 +61,9 @@
         <!--                  </ng-template>-->
         <!--              </ngx-datatable-column>-->
       </ngx-datatable>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <!--DataTable With Editing Feature Ends-->

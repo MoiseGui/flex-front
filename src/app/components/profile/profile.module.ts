@@ -4,11 +4,9 @@ import { CommonModule } from '@angular/common';
 
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
-import { ListProfileComponent } from './list-profile/list-profile.component';
-import { AddProfileComponent } from './add-profile/add-profile.component';
 
 @NgModule({
-  declarations: [ProfileComponent, ListProfileComponent, AddProfileComponent],
+  declarations: [ProfileComponent,],
   imports: [
     CommonModule,
     ProfileRoutingModule,

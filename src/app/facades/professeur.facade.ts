@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {Professeur} from '../models/professeur';
-import {ProfesseurService} from '../services/professeur.service';
-import {NGXToastrService} from '../shared/toastr/toastr.service';
-import {ProfesseurState} from '../states/professeur.state';
+import { Observable, Subject } from 'rxjs';
+import { Professeur } from '../models/professeur';
+import { ProfesseurService } from '../services/professeur.service';
+import { NGXToastrService } from '../shared/toastr/toastr.service';
+import { ProfesseurState } from '../states/professeur.state';
 
 @Injectable({
   providedIn: 'root'
@@ -18,21 +18,21 @@ export class ProfesseurFacade {
     this.loadProfs();
   }
 
-  loadProfs(){
+  loadProfs() {
     this.profService.findAll().subscribe(profs => {
       this.profState.setProfesseurs(profs);
     })
   }
 
-  getProfesseurs$():Observable<Professeur[]>{
+  getProfesseurs$(): Observable<Professeur[]> {
     return this.profState.getProfesseurs$();
   }
 
-  addProfesseur(prof: Professeur): Observable<string>{
+  addProfesseur(prof: Professeur): Observable<string> {
     let message = new Subject<string>();
     this.profService.addprofesseur(prof).subscribe(response => {
       // console.log("Response",response.message)
-      if(response.id){
+      if (response.id) {
         this.profState.addProfesseur(response);
         message.next("Ok");
       }
@@ -47,11 +47,11 @@ export class ProfesseurFacade {
     return message;
   }
 
-  updateProfesseur(id: number, prof: Professeur): Observable<string>{
+  updateProfesseur(id: number, prof: Professeur): Observable<string> {
     let message = new Subject<string>();
 
-    this.profService.updateprofesseur({...prof, id}).subscribe(response => {
-      if(response.id){
+    this.profService.updateprofesseur({ ...prof, id }).subscribe(response => {
+      if (response.id) {
         this.profState.updateProfesseur(response);
         message.next("Ok");
       }
@@ -67,9 +67,9 @@ export class ProfesseurFacade {
     return message;
   }
 
-  removeProfesseur(id: number){
+  removeProfesseur(id: number) {
     this.profService.removeprofesseur(id).subscribe(response => {
-      if(response.nom){
+      if (response.nom) {
         this.toastService.typeSuccess(`Professeur ${response.nom} deleted successfully`);
         this.profState.removeProfesseur(id);
       }
@@ -79,20 +79,20 @@ export class ProfesseurFacade {
     });
   }
 
-  handleError(error: any): string{
+  handleError(error: any): string {
     let text = "";
-    for(let i = 0; i < error.error.message.length; i++) {
-      if(i == error.error.message.length - 1) text += `${error.error.message[i]}`
+    for (let i = 0; i < error.error.message.length; i++) {
+      if (i == error.error.message.length - 1) text += `${error.error.message[i]}`
       else text += `${error.error.message[i]} | `
     }
     return text;
   }
 
-  getError$(){
+  getError$() {
     return this.profState.getError$();
   }
 
-  setError(message){
+  setError(message) {
     this.profState.setError(message);
   }
 
@@ -100,7 +100,7 @@ export class ProfesseurFacade {
     return this.profState.isLoading$();
   }
 
-  setLoading(value: boolean){
+  setLoading(value: boolean) {
     this.profState.setLoading(value);
   }
 }

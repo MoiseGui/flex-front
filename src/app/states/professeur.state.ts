@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {Professeur} from '../models/professeur';
+import { BehaviorSubject } from 'rxjs';
+import { Professeur } from '../models/professeur';
 
 @Injectable({
   providedIn: 'root'
@@ -14,31 +14,31 @@ export class ProfesseurState {
 
   constructor() { }
 
-  getProfesseurs$(){
+  getProfesseurs$() {
     return this.professeurs$.asObservable();
   }
 
-  setProfesseurs(profs: Professeur[]){
+  setProfesseurs(profs: Professeur[]) {
     this.professeurs$.next(profs);
   }
 
-  addProfesseur(prof: Professeur){
+  addProfesseur(prof: Professeur) {
     const profs = this.professeurs$.getValue();
 
-    if(profs == null){
+    if (profs == null) {
       this.professeurs$.next(new Array(prof));
     }
     else {
-      this.professeurs$.next([...profs,prof]);
+      this.professeurs$.next([...profs, prof]);
     }
   }
 
-  updateProfesseur(prof: Professeur){
+  updateProfesseur(prof: Professeur) {
     const profs = this.professeurs$.getValue();
 
     // foreach can't get the job done
-    for(let i = 0; i < profs.length; i++){
-      if(profs[i].id == prof.id) profs[i] = prof;
+    for (let i = 0; i < profs.length; i++) {
+      if (profs[i].id == prof.id) profs[i] = prof;
     }
 
     // profs.forEach(element => {
@@ -54,7 +54,7 @@ export class ProfesseurState {
     this.professeurs$.next([...profs]);
   }
 
-  removeProfesseur(id: number){
+  removeProfesseur(id: number) {
     let profs = this.professeurs$.getValue();
 
     profs = profs.filter(prof => prof.id != id);
@@ -62,7 +62,7 @@ export class ProfesseurState {
     this.professeurs$.next([...profs]);
   }
 
-  setError(message){
+  setError(message) {
     this.error$.next(message)
   }
 
@@ -70,11 +70,11 @@ export class ProfesseurState {
     return this.error$;
   }
 
-  isLoading$(){
+  isLoading$() {
     return this.loading$.asObservable();
   }
 
-  setLoading(value: boolean){
+  setLoading(value: boolean) {
     this.loading$.next(value);
   }
 }

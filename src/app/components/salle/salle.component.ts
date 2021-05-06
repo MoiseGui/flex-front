@@ -100,12 +100,14 @@ export class SalleComponent implements OnInit {
 
     this.editing[rowIndex + '-' + cell] = false;
 
+
+    if(event.target.value != this.rows[rowIndex].nom) {
     const old = {...this.rows[rowIndex]};
     const salle = {...this.rows[rowIndex]};
 
     salle.nom = event.target.value;
-
-    this.salleFacade.updatesalle(salle, old);
+      this.salleFacade.updatesalle(salle, old);
+    }
     // this.rows[rowIndex][cell] = response.nom;
     // this.rows = [...this.rows];
 

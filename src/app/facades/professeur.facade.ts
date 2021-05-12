@@ -81,9 +81,15 @@ export class ProfesseurFacade {
 
   handleError(error: any): string {
     let text = "";
-    for (let i = 0; i < error.error.message.length; i++) {
-      if (i == error.error.message.length - 1) text += `${error.error.message[i]}`
-      else text += `${error.error.message[i]} | `
+
+    if (typeof error.error.message == 'string') {
+      text = error.error.message;
+    }
+    else {
+      for (let i = 0; i < error.error.message.length; i++) {
+        if (i == error.error.message.length - 1) text += `${error.error.message[i]}`
+        else text += `${error.error.message[i]} | `
+      }
     }
     return text;
   }

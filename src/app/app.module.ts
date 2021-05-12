@@ -21,6 +21,7 @@ import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
+import {LoginPageComponent} from './components/login/login-page.component';
 import {CrupdateProfesseurModalComponent} from './components/professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
@@ -38,7 +39,7 @@ export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
 @NgModule({
-  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, ToastrComponent],
+  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, ToastrComponent, LoginPageComponent],
   imports: [BrowserModule, BrowserAnimationsModule, ToastrModule.forRoot(), TranslateModule.forRoot({
     loader: {
       provide: TranslateLoader,

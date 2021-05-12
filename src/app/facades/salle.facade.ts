@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import swal from 'sweetalert2';
-import {Salle} from '../models/salle';
-import {SalleService} from '../services/salle.service';
-import {NGXToastrService} from '../shared/toastr/toastr.service';
-import {SalleState} from '../states/salle.state';
+import { Salle } from '../models/salle';
+import { SalleService } from '../services/salle.service';
+import { NGXToastrService } from '../shared/toastr/toastr.service';
+import { SalleState } from '../states/salle.state';
 
 @Injectable({
   providedIn: 'root'
@@ -19,26 +19,26 @@ export class SalleFacade {
     this.loadSalles();
   }
 
-  loadSalles(){
+  loadSalles() {
     this.salleService.findAll().subscribe(salles => {
       // console.log("Depuis les facades", salles)
       this.salleState.setSalles(salles);
     });
   }
 
-  getSalles$():Observable<Salle[]>{
+  getSalles$(): Observable<Salle[]> {
     return this.salleState.getSalles$();
   }
 
   addSalles(nom: string): Observable<string> {
     let message = new Subject<string>();
     this.salleService.addSalle(nom).subscribe(response => {
-      if(!response.nom){
+      if (!response.nom) {
         // this.setError(response.message);
         console.log(response)
         message.next(response.message);
       }
-      else{
+      else {
         this.salleState.addSalle(response)
         message.next("Ok");
       }
@@ -51,8 +51,8 @@ export class SalleFacade {
   }
 
   addSallesDialog(title: string,
-               input: "number" | "text" | "email" | "password" | "tel" | "range" | "textarea" | "select" | "radio" | "checkbox" | "file",
-               facade: SalleFacade) {
+    input: "number" | "text" | "email" | "password" | "tel" | "range" | "textarea" | "select" | "radio" | "checkbox" | "file",
+    facade: SalleFacade) {
     swal.fire({
       title: title,
       input: input,
@@ -62,7 +62,7 @@ export class SalleFacade {
 
       preConfirm: function (inputValue) {
         // console.log("Here we go")
-        if(inputValue.length == 0) return new Promise(function (resolve, reject) {
+        if (inputValue.length == 0) return new Promise(function (resolve, reject) {
           resolve("The name field should not be empty.");
         });
         return new Promise(function (resolve, reject) {
@@ -73,15 +73,15 @@ export class SalleFacade {
       },
       allowOutsideClick: false
     }).then(function (message) {
-      if(message.value == "Ok"){
+      if (message.value == "Ok") {
         swal.fire({
           type: 'success',
           title: 'Success',
           html: `New class room added successfully`
         });
       }
-      else{
-        if(message.value){
+      else {
+        if (message.value) {
           swal.fire({
             type: 'error',
             title: 'Error',
@@ -95,10 +95,10 @@ export class SalleFacade {
     })
   }
 
-  updatesalle(salle:Salle, old: Salle) {
+  updatesalle(salle: Salle, old: Salle) {
     this.salleState.updateSalle(salle);
     return this.salleService.updateSalle(salle).subscribe(response => {
-      if(!response.nom || response.nom != salle.nom){
+      if (!response.nom || response.nom != salle.nom) {
         this.setError(response.message);
         // console.log("old",old)
         this.salleState.updateSalle(old);
@@ -107,24 +107,24 @@ export class SalleFacade {
     });
   }
 
-  removeSalle(id: number){
+  removeSalle(id: number) {
     this.salleService.removeSalle(id).subscribe(response => {
-        // console.log("reponse",response)
-      if(response.nom){
+      // console.log("reponse",response)
+      if (response.nom) {
         this.toastService.typeSuccess(`Class room ${response.nom} deleted successfully`);
         this.salleState.removeSalle(id);
       }
-      else{
+      else {
         this.setError(`An error has occurred while trying to delete the class room ${response.nom}`);
       }
     });
   }
 
-  getError$(){
+  getError$() {
     return this.salleState.getError$();
   }
 
-  setError(message){
+  setError(message) {
     this.salleState.setError(message);
   }
 }

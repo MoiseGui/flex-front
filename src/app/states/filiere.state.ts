@@ -17,11 +17,11 @@ export class FiliereState {
         return this.filiere$.asObservable();
     }
 
-    setProfesseurs(filieres: Filiere[]) {
+    setFilieres(filieres: Filiere[]) {
         this.filiere$.next(filieres);
     }
 
-    addProfesseur(filiere: Filiere) {
+    addFiliere(filiere: Filiere) {
         const filieres = this.filiere$.getValue();
 
         if (filieres == null) {
@@ -32,7 +32,7 @@ export class FiliereState {
         }
     }
 
-    updateProfesseur(filiere: Filiere) {
+    updateFiliere(filiere: Filiere) {
         const filieres = this.filiere$.getValue();
         for (let i = 0; i < filieres.length; i++) {
             if (filieres[i].id == filiere.id) filieres[i] = filiere;
@@ -40,7 +40,7 @@ export class FiliereState {
         this.filiere$.next([...filieres]);
     }
 
-    removeProfesseur(id: number) {
+    removeFiliere(id: number) {
         let filieres = this.filiere$.getValue();
 
         filieres = filieres.filter(filiere => filiere.id != id);

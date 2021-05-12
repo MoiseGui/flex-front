@@ -11,10 +11,11 @@ export class NGXToastrService {
         this.toastr.success(message, 'Success!');
     }
 
-    // Success Type
-    typeInfo() {
-        this.toastr.info('We do have the Kapua suite available.', 'Turtle Bay Resort');
+    typeInfo(message?: string) {
+        this.toastr.info(message, 'info');
     }
+    // Success Type
+
 
     // Success Type
     typeWarning() {

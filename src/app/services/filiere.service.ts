@@ -18,15 +18,14 @@ export class FiliereService {
 
     updatefiliere(filiere: Filiere): Observable<any> {
         const { nom } = filiere;
-        return this.http.put(`${this.API}/${filiere.id}`, { nom });
+        return this.http.put(`${this.API}/id/${filiere.id}`, { nom });
     }
 
-    addfiliere(filiere: Filiere): Observable<any> {
-        const { nom } = filiere;
+    addfiliere(nom: string): Observable<any> {
         return this.http.post(`${this.API}/`, { nom });
     }
 
     removefiliere(id: number): Observable<any> {
-        return this.http.delete(`${this.API}/${id}`);
+        return this.http.delete(`${this.API}/id/${id}`);
     }
 }

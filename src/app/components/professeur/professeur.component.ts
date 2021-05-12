@@ -1,14 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {DatatableComponent} from '@swimlane/ngx-datatable';
-import {LocalDataSource} from 'ng2-smart-table';
-import {Observable} from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { LocalDataSource } from 'ng2-smart-table';
+import { Observable } from 'rxjs';
 import swal from 'sweetalert2';
-import {ProfesseurFacade} from '../../facades/professeur.facade';
-import {Professeur} from '../../models/professeur';
+import { ProfesseurFacade } from '../../facades/professeur.facade';
+import { Professeur } from '../../models/professeur';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
-import {Modal} from '../../shared/ui/modal.service';
-import {CrupdateProfesseurModalComponent} from './crupdate-professeur-modal/crupdate-professeur-modal.component';
+import { Modal } from '../../shared/ui/modal.service';
+import { CrupdateProfesseurModalComponent } from './crupdate-professeur-modal/crupdate-professeur-modal.component';
 
 @Component({
   selector: 'app-professeur',
@@ -17,9 +17,9 @@ import {CrupdateProfesseurModalComponent} from './crupdate-professeur-modal/crup
 })
 export class ProfesseurComponent implements OnInit {
 
-  public title:String = "";
+  public title: String = "";
 
-  professeurs$ : Observable<Professeur[]>;
+  professeurs$: Observable<Professeur[]>;
 
   editing = {};
 
@@ -29,10 +29,10 @@ export class ProfesseurComponent implements OnInit {
   // sera utilisé pour la recherche
   temp = [];
 
-  @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
+  @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
 
   constructor(
-    private activatedRoute:ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private professeurFacade: ProfesseurFacade,
     private modal: Modal,
   ) {
@@ -57,7 +57,7 @@ export class ProfesseurComponent implements OnInit {
     // whenever there is an error
     this.professeurFacade.getError$().subscribe(message => {
       // "" means there is no error
-      if(message != "") {
+      if (message != "") {
         // alert(message);
         this.alertErrorMessage(message);
         // seet no error after handling the error
@@ -67,13 +67,13 @@ export class ProfesseurComponent implements OnInit {
   }
 
   // Error Type Alert
-  alertErrorMessage(message: string){
+  alertErrorMessage(message: string) {
     alertFunctions.typeError(message);
   }
 
-  showCrupdateProfessor(professeur?: Professeur){
-    this.modal.show(CrupdateProfesseurModalComponent, {professeur}).afterClosed().subscribe(data => {
-      if ( ! data) return;
+  showCrupdateProfessor(professeur?: Professeur) {
+    this.modal.show(CrupdateProfesseurModalComponent, { professeur }).afterClosed().subscribe(data => {
+      if (!data) return;
       // this.refreshCompany();
     });
   }
@@ -117,8 +117,8 @@ export class ProfesseurComponent implements OnInit {
   }
 
   // used to sure Yes for True and No for False
-  yesOrNo(value): string{
-    return value==true ? "Yes" : "No";
+  yesOrNo(value): string {
+    return value == true ? "Yes" : "No";
   }
 
 }

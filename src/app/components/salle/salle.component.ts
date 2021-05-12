@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {DatatableComponent} from '@swimlane/ngx-datatable';
-import {Observable} from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { Observable } from 'rxjs';
 import swal from 'sweetalert2';
-import {SalleFacade} from '../../facades/salle.facade';
-import {Salle} from '../../models/salle';
+import { SalleFacade } from '../../facades/salle.facade';
+import { Salle } from '../../models/salle';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
 
 @Component({
@@ -14,9 +14,9 @@ import * as alertFunctions from '../../shared/data/sweet-alerts';
 })
 export class SalleComponent implements OnInit {
 
-  public title:String = "";
+  public title: String = "";
 
-  salles$ : Observable<Salle[]>;
+  salles$: Observable<Salle[]>;
 
   editing = {};
 
@@ -26,10 +26,10 @@ export class SalleComponent implements OnInit {
   // sera utilisé pour la recherche
   temp = [];
 
-  @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
+  @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
 
   constructor(
-    private activatedRoute:ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private salleFacade: SalleFacade,
   ) {
 
@@ -53,7 +53,7 @@ export class SalleComponent implements OnInit {
     // whenever there is an error
     this.salleFacade.getError$().subscribe(message => {
       // "" means there is no error
-      if(message != "") {
+      if (message != "") {
         // alert(message);
         this.alertErrorMessage(message);
         // seet no error after handling the error
@@ -63,11 +63,11 @@ export class SalleComponent implements OnInit {
   }
 
   // Error Type Alert
-  alertErrorMessage(message: string){
+  alertErrorMessage(message: string) {
     alertFunctions.typeError(message);
   }
 
-  addSalle(){
+  addSalle() {
     this.salleFacade.addSallesDialog(
       "Ajouter une salle",
       "text",
@@ -101,11 +101,11 @@ export class SalleComponent implements OnInit {
     this.editing[rowIndex + '-' + cell] = false;
 
 
-    if(event.target.value != this.rows[rowIndex].nom) {
-    const old = {...this.rows[rowIndex]};
-    const salle = {...this.rows[rowIndex]};
 
-    salle.nom = event.target.value;
+    if (event.target.value != this.rows[rowIndex].nom) {
+      const old = { ...this.rows[rowIndex] };
+      const salle = { ...this.rows[rowIndex] };
+      salle.nom = event.target.value;
       this.salleFacade.updatesalle(salle, old);
     }
     // this.rows[rowIndex][cell] = response.nom;

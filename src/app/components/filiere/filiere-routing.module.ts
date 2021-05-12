@@ -6,11 +6,11 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    children:[
+    children: [
       {
-        path:'list',
+        path: 'list',
         component: ListFiliereComponent,
-        data:{
+        data: {
           title: 'Liste des filières'
         }
       },

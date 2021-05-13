@@ -20,6 +20,7 @@ const appRoutes: Routes = [
     data: { title: 'full Views' },
     children: Full_ROUTES,
     canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard]
   },
   {
     path: 'login',

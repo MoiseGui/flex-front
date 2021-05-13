@@ -9,7 +9,7 @@ export class GuestGard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    console.log(this.authService.isAuthenticated())
+    // console.log(this.authService.isAuthenticated())
 
     if(this.authService.isAuthenticated()) this.router.navigate(['dashboard']);
 

@@ -12,14 +12,14 @@ export class ProfesseurService {
 
   headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
-    .set('Authorization', `Bearer ${this.authService.getToken()}`);
+    .set('Authorization', `Bearer ${this.authService.credentials ? this.authService.credentials.token : "null"}`);
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
   ) {
-    this.authService.token$.subscribe(token => {
-      this.headers.set('Authorization', `Bearer ${token}`);
+    this.authService.credentials$.subscribe(credentials => {
+      if(credentials) this.headers.set('Authorization', `Bearer ${credentials.token}`);
     })
   }
 

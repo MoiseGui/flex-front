@@ -8,18 +8,18 @@ import { Injectable } from "@angular/core";
     providedIn: 'root',
 })
 export class FiliereService {
-    readonly API = 'http://localhost:3000/filieres';
+  readonly API = 'http://localhost:3000/filieres';
 
   headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
-    .set('Authorization', `Bearer ${this.authService.getToken()}`);
+    .set('Authorization', `Bearer ${this.authService.credentials ? this.authService.credentials.token : "null"}`);
 
     constructor(
         private http: HttpClient,
         private authService: AuthService,
     ) {
-      this.authService.token$.subscribe(token => {
-        this.headers.set('Authorization', `Bearer ${token}`);
+      this.authService.credentials$.subscribe(credentials => {
+        if(credentials) this.headers.set('Authorization', `Bearer ${credentials.token}`);
       })
     }
 

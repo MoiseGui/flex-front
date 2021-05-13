@@ -48,8 +48,8 @@ export class LoginPageComponent implements OnInit{
   // On submit button click
     onSubmit() {
       this.unsetError();
-      const {email, password} = this.form.value;
-      this.authService.signinUser(email, password);
+      const {email, password, remember} = this.form.value;
+      this.authService.signinUser(email, password, remember);
     }
     // On Forgot password link click
     onForgotPassword() {

@@ -10,7 +10,7 @@ import { Injectable } from "@angular/core";
 export class FiliereService {
     readonly API = 'http://localhost:3000/filieres';
 
-  readonly headers = new HttpHeaders()
+  headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .set('Authorization', `Bearer ${this.authService.getToken()}`);
 

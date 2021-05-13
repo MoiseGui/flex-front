@@ -10,7 +10,7 @@ import {AuthService} from '../shared/auth/auth.service';
 export class SalleService {
   readonly API = 'http://localhost:3000/salles';
 
-  readonly headers = new HttpHeaders()
+  headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .set('Authorization', `Bearer ${this.authService.getToken()}`);
 

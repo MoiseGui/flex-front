@@ -25,6 +25,7 @@ import {LoginPageComponent} from './components/login/login-page.component';
 import {CrupdateProfesseurModalComponent} from './components/professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
+import {GuestGard} from './shared/auth/guest-guard.service';
 import { SharedModule } from './shared/shared.module';
 import {ToastrComponent} from './shared/toastr/toastr.component';
 import {NGXToastrService} from './shared/toastr/toastr.service';
@@ -53,6 +54,7 @@ export function createTranslateLoader(http: HttpClient) {
     }), ReactiveFormsModule],
   providers: [ AuthService,
     AuthGuard,
+    GuestGard,
     DragulaService,
     FormBuilder,
     NGXToastrService,

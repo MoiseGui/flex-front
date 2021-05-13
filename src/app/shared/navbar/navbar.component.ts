@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import {AuthService} from '../auth/auth.service';
 import { ConfigService } from '../services/config.service';
 import { LayoutService } from '../services/layout.service';
 
@@ -20,7 +21,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public config: any = {};
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService) {
+  constructor(
+    public translate: TranslateService,
+    private layoutService: LayoutService,
+    private configService:ConfigService,
+    private authService: AuthService,
+  ) {
     const browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
 
@@ -33,6 +39,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.placement = "bottom-right";
         }
       });
+  }
+
+  logout(){
+    this.authService.logout();
   }
 
   ngOnInit() {
@@ -49,7 +59,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.placement = "bottom-right";
         }
       }, 0);
-     
+
     }
   }
 

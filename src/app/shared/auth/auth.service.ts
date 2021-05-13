@@ -1,30 +1,61 @@
+import {HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  token: string;
+  readonly API = 'http://localhost:3000/auth/admin';
 
-  constructor() {}
+  public loading$ = new BehaviorSubject<boolean>(false);
+  public errorMessage$ = new BehaviorSubject<string>("");
+
+  token$ = new BehaviorSubject<string>(null);
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   signupUser(email: string, password: string) {
     //your code for signing up the new user
   }
 
   signinUser(email: string, password: string) {
-    //your code for checking credentials and getting tokens for for signing in user
+    this.http.post<any>(`${this.API}/login`, { email, password }).subscribe(response => {
+      if(response.access_token){
+        this.token$.next(response.access_token);
+        this.router.navigate(['dashboard']);
+      }
+      else{
+        this.setError(response.message);
+      }
+    }, error => {
+      this.setError(error.error.message);
+    })
   }
 
-  logout() {   
-    this.token = null;
+  logout() {
+    this.token$.next(null);
+    this.router.navigate(['login']);
   }
 
-  getToken() {    
-    return this.token;
+  getToken() {
+    return this.token$.getValue();
   }
 
   isAuthenticated() {
-    // here you can check if user is authenticated or not through his token 
-    return true;
+    // here you can check if user is authenticated or not through his token
+    return !!this.getToken();
+  }
+
+  setError(message: string){
+    this.errorMessage$.next(message);
+  }
+
+  unsetError(){
+    this.errorMessage$.next("");
   }
 }

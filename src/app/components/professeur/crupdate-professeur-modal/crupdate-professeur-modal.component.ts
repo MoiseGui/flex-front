@@ -24,6 +24,7 @@ export class CrupdateProfesseurModalComponent implements OnInit {
     nom: [''],
     prenom: [''],
     email: [''],
+    password: [''],
     admin: [false],
   });
   public loading$ = this.professeurFacade.getLoading$();

@@ -1,7 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, NgForm} from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import {BehaviorSubject} from 'rxjs';
+import {AuthService} from '../../shared/auth/auth.service';
 
 export interface LoginData{
   email: string;
@@ -14,10 +15,11 @@ export interface LoginData{
     templateUrl: './login-page.component.html',
     styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit{
 
   // @ViewChild('f', {static: false}) loginForm: NgForm;
-  public errors$ = new BehaviorSubject<Partial<LoginData>>({});
+  public loading$ = this.authService.loading$;
+  public errorMessage: string = null;
 
   public form = this.fb.group({
     email: [''],
@@ -28,16 +30,26 @@ export class LoginPageComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService,
   ) {
     this.resetState();
   }
 
-    // On submit button click
+  ngOnInit() {
+    this.authService.errorMessage$.subscribe(value => {
+      if(value != ""){
+        this.errorMessage = value;
+      }
+      else this.errorMessage = null;
+    })
+  }
+
+  // On submit button click
     onSubmit() {
-      this.resetState();
-        // this.loginForm.reset();
-      this.router.navigate(['dashboard']);
+      this.unsetError();
+      const {email, password} = this.form.value;
+      this.authService.signinUser(email, password);
     }
     // On Forgot password link click
     onForgotPassword() {
@@ -48,8 +60,11 @@ export class LoginPageComponent {
         this.router.navigate(['register'], { relativeTo: this.route.parent });
     }
 
+  unsetError(){
+    this.authService.unsetError();
+  }
+
   private resetState() {
     this.form.reset();
-    this.errors$.next({});
   }
 }

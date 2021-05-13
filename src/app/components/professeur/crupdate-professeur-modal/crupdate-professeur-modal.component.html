@@ -24,6 +24,12 @@
       <div class="error" *ngIf="errors.email">{{errors.email}}</div>
     </div>
 
+    <div class="input-container" *ngIf="!data.professeur">
+      <label for="password" >Password</label>
+      <input type="password" formControlName="password" id="password" required>
+      <div class="error" *ngIf="errors.password">{{errors.password}}</div>
+    </div>
+
     <div class="setting-container">
       <mat-slide-toggle  formControlName="admin" id="admin" >Admin</mat-slide-toggle>
       <p >Define if the professor is an admin</p>

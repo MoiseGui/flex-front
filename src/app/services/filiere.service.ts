@@ -1,6 +1,7 @@
+import {AuthService} from '../shared/auth/auth.service';
 import { Filiere } from './../models/filiere';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from "@angular/core";
 
 @Injectable({
@@ -8,24 +9,34 @@ import { Injectable } from "@angular/core";
 })
 export class FiliereService {
     readonly API = 'http://localhost:3000/filieres';
+
+  readonly headers = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('Authorization', `Bearer ${this.authService.getToken()}`);
+
     constructor(
-        private http: HttpClient
-    ) { }
+        private http: HttpClient,
+        private authService: AuthService,
+    ) {
+      this.authService.token$.subscribe(token => {
+        this.headers.set('Authorization', `Bearer ${token}`);
+      })
+    }
 
     findAll(): Observable<Filiere[]> {
-        return this.http.get<Filiere[]>(`${this.API}/`);
+        return this.http.get<Filiere[]>(`${this.API}/`, {headers: this.headers});
     }
 
     updatefiliere(filiere: Filiere): Observable<any> {
         const { nom } = filiere;
-        return this.http.put(`${this.API}/id/${filiere.id}`, { nom });
+        return this.http.put(`${this.API}/id/${filiere.id}`, { nom }, {headers: this.headers});
     }
 
     addfiliere(nom: string): Observable<any> {
-        return this.http.post(`${this.API}/`, { nom });
+        return this.http.post(`${this.API}/`, { nom }, {headers: this.headers});
     }
 
     removefiliere(id: number): Observable<any> {
-        return this.http.delete(`${this.API}/id/${id}`);
+        return this.http.delete(`${this.API}/id/${id}`, {headers: this.headers});
     }
 }

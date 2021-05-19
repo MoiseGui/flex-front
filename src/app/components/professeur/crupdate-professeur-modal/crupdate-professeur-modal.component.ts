@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {BehaviorSubject} from 'rxjs';
-import {finalize} from 'rxjs/operators';
-import {ProfesseurFacade} from '../../../facades/professeur.facade';
-import {Professeur} from '../../../models/professeur';
-import {NGXToastrService} from '../../../shared/toastr/toastr.service';
-import {Modal} from '../../../shared/ui/modal.service';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BehaviorSubject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { ProfesseurFacade } from '../../../facades/professeur.facade';
+import { Professeur } from '../../../models/professeur';
+import { NGXToastrService } from '../../../shared/toastr/toastr.service';
+import { Modal } from '../../../shared/ui/modal.service';
 
 export interface CrupdateProfesseurModalData {
   professeur: Professeur;
@@ -58,7 +58,7 @@ export class CrupdateProfesseurModalComponent implements OnInit {
     this.professeurFacade.setLoading(true);
 
     // make sure there is no null value sent, specialy for boolean and model fields
-    if(this.form.value.admin == null) this.form.value.admin = false;
+    if (this.form.value.admin == null) this.form.value.admin = false;
 
     let request;
     if (this.data.professeur) {
@@ -70,11 +70,11 @@ export class CrupdateProfesseurModalComponent implements OnInit {
     request
       .pipe(finalize(() => this.professeurFacade.setLoading(false)))
       .subscribe(response => {
-        if(response == "Ok"){
-          if(this.data.professeur){
+        if (response == "Ok") {
+          if (this.data.professeur) {
             this.toastService.typeSuccess(`Professor updated successfully`);
           }
-          else{
+          else {
             this.toastService.typeSuccess(`Professor added successfully`);
           }
           this.close(response);

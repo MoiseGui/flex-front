@@ -1,5 +1,6 @@
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule, MatDialogModule} from '@angular/material';
+import { CrupdateProfileModalComponent } from './components/profile/crupdate-profile-modal/crupdate-profile-modal.component';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatDialogModule } from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -21,14 +22,14 @@ import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
-import {LoginPageComponent} from './components/login/login-page.component';
-import {CrupdateProfesseurModalComponent} from './components/professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
+import { LoginPageComponent } from './components/login/login-page.component';
+import { CrupdateProfesseurModalComponent } from './components/professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
 import { AuthService } from './shared/auth/auth.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
-import {GuestGard} from './shared/auth/guest-guard.service';
+import { GuestGard } from './shared/auth/guest-guard.service';
 import { SharedModule } from './shared/shared.module';
-import {ToastrComponent} from './shared/toastr/toastr.component';
-import {NGXToastrService} from './shared/toastr/toastr.service';
+import { ToastrComponent } from './shared/toastr/toastr.component';
+import { NGXToastrService } from './shared/toastr/toastr.service';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelPropagation: false
@@ -52,7 +53,7 @@ export function createTranslateLoader(http: HttpClient) {
       provide: DateAdapter,
       useFactory: momentAdapterFactory
     }), ReactiveFormsModule],
-  providers: [ AuthService,
+  providers: [AuthService,
     AuthGuard,
     GuestGard,
     DragulaService,
@@ -64,8 +65,10 @@ export function createTranslateLoader(http: HttpClient) {
     },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }],
   bootstrap: [AppComponent],
-  entryComponents:[
+  entryComponents: [
     CrupdateProfesseurModalComponent,
+    CrupdateProfileModalComponent,
+
   ]
 })
-export class AppModule {}
+export class AppModule { }

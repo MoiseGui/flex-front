@@ -1,0 +1,59 @@
+<div class="modal-header">
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="data.profile">Update Profile</h2>
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="!data.profile">Create a new Profile</h2>
+  <button type="button" (click)="close()" class="close-button no-style" tabindex="-1"><i
+      class="ft-x font-medium-3 mr-2"></i></button>
+</div>
+
+<form autocomplete="off" (submit)="confirm()" *ngIf="errors$ | async as errors" [formGroup]="form" ngNativeValidate>
+  <div class="many-inputs mat-dialog-content" mat-dialog-content>
+    <div class="input-container">
+      <label for="libellle">Libelle</label>
+      <input type="text" formControlName="libelle" id="libelle" required>
+      <div class="error" *ngIf="errors.libelle">{{errors.libelle}}</div>
+    </div>
+
+    <!-- <div class="input-container"> -->
+    <label for="filieres">Filieres</label>
+    <select class="form-control" formControlName="filieres" id="filieres" required multiple>
+      <option value="IRISI1">IRISI1</option>
+      <option value="IRISI2">IRISI2</option>
+      <option value="IRISI3">IRISI3</option>
+      <option value="IRISI1">IRISI1</option>
+      <option value="IRISI2">IRISI2</option>
+      <option value="IRISI3">IRISI3</option>
+    </select>
+    <div class="error" *ngIf="errors.filieres">{{errors.filieres}}</div>
+    <!-- </div> -->
+
+    <!-- <div class="input-container"> -->
+    <label for="professeurs">Professeurs</label>
+    <select class="form-control" formControlName="professeurs" id="professeurs" multiple required>
+      <option value="yassine@gmail.com">yassine@gmail.com</option>
+      <option value="ahmed@gmail.com">ahmed@gmail.com</option>
+      <option value="test@gmail.com">test@gmail.com</option>
+      <option value="yassine@gmail.com">yassine@gmail.com</option>
+      <option value="ahmed@gmail.com">ahmed@gmail.com</option>
+      <option value="test@gmail.com">test@gmail.com</option>
+    </select>
+    <div class="error" *ngIf="errors.professeurs">{{errors.professeurs}}</div>
+    <!-- </div> -->
+
+
+
+    <div class="setting-container">
+      <mat-slide-toggle formControlName="open" id="open">Open</mat-slide-toggle>
+      <p>Define if the profile is open</p>
+      <div class="error" *ngIf="errors.open">{{errors.open}}</div>
+    </div>
+
+  </div>
+
+  <div class="buttons right mat-dialog-actions" mat-dialog-actions>
+    <button (click)="close()" type="button" class="button cancel" mat-button>Cancel</button>
+    <button type="submit" mat-raised-button color="accent" class="action-button" [disabled]="loading$ | async">
+      <span *ngIf="data.profile">Update</span>
+      <span *ngIf="!data.profile">Create</span>
+    </button>
+  </div>
+</form>

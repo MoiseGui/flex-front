@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule, MatDialogModule, MatIconModule, MatSlideToggleModule} from '@angular/material';
-import {NgxDatatableModule} from '@swimlane/ngx-datatable';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatDialogModule, MatIconModule, MatSlideToggleModule } from '@angular/material';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { ProfesseurRoutingModule } from './professeur-routing.module';
 import { ProfesseurComponent } from './professeur.component';
@@ -25,7 +25,7 @@ import { CrupdateProfesseurModalComponent } from './crupdate-professeur-modal/cr
   entryComponents: [
     CrupdateProfesseurModalComponent,
   ],
-  providers:[
+  providers: [
     FormBuilder,
   ]
 })

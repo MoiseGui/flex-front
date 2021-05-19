@@ -44,6 +44,7 @@ export class CrupdateProfileModalComponent implements OnInit {
     private fb: FormBuilder,
     private professeurFacade: ProfesseurFacade,
     private filiereFacade: FiliereFacade,
+    private profileFacade: ProfileFacade,
     private toastService: NGXToastrService,
     private dialogRef: MatDialogRef<CrupdateProfileModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CrupdateProfesseurModalData,
@@ -77,7 +78,13 @@ export class CrupdateProfileModalComponent implements OnInit {
   }
 
   public confirm() {
-    console.log(this.form.value);
+    const profile: Profile = this.form.value;
+    console.log(profile);
+    this.profileFacade.addProfile(profile).subscribe((msg: string) => {
+      this.toastService.typeSuccess(msg);
+    }, error => {
+      this.toastService.typeError(error.message);
+    });
   }
 
   private resetState() {

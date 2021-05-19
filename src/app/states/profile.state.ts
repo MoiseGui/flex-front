@@ -13,33 +13,33 @@ export class ProfileState {
 
   constructor() { }
 
-  getProfiles$(){
+  getProfiles$() {
     return this.profiles$.asObservable();
   }
 
-  setProfiles(salles:Profile[]){
-    this.profiles$.next(salles);
+  setProfiles(profiles: Profile[]) {
+    this.profiles$.next(profiles);
   }
 
   addProfile(profile: Profile) {
     const profiles = this.profiles$.getValue();
-  
-    if(profiles == null) {
+
+    if (profiles == null) {
       this.profiles$.next(new Array(profile));
     } else {
       this.profiles$.next([...profiles, profile]);
     }
   }
 
-  isLoading$(){
+  isLoading$() {
     return this.loading$.asObservable();
   }
 
-  setLoading(value: boolean){
+  setLoading(value: boolean) {
     this.loading$.next(value);
   }
 
-  setError(message){
+  setError(message) {
     this.error$.next(message)
   }
 

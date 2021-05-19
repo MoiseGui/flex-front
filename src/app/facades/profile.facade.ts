@@ -3,7 +3,7 @@ import { ProfileState } from '../states/profile.state';
 import { ProfileService } from '../services/profile.service';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Profile } from '../models/profile' 
+import { Profile } from '../models/profile'
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class ProfileFacade {
   constructor(
     private profileService: ProfileService,
     private profileState: ProfileState,
-  ) { 
+  ) {
     this.loadProfiles();
   }
 
@@ -27,16 +27,17 @@ export class ProfileFacade {
     return this.profileState.getProfiles$();
   }
 
-  
+
+
   addProfile(profile: Profile): Observable<String> {
 
     let message = new Subject<string>();
 
     // api call
-    this.profileService.addProfile(profile).subscribe( res => {
+    this.profileService.addProfile(profile).subscribe(res => {
 
       // add the profile to the state
-      if(res.id) {  
+      if (res.id) {
         this.profileState.addProfile(res);
         // show success message
         message.next("Profile added successfully.");
@@ -46,17 +47,17 @@ export class ProfileFacade {
       }
 
     }, err => {
-        // in case of api call errors
-        // stop the loading
-        this.setLoading(false);
-        // show api call error
-        message.next(this.handleError(err));
+      // in case of api call errors
+      // stop the loading
+      this.setLoading(false);
+      // show api call error
+      message.next(this.handleError(err));
     })
 
     return message;
   }
 
-  handleError(error: any): string{
+  handleError(error: any): string {
     let text = "";
 
     if (typeof error.error.message == 'string') {

@@ -8,9 +8,10 @@ import { CrupdateProfileModalComponent } from './crupdate-profile-modal/crupdate
 import { MatButtonModule, MatDialogModule, MatIconModule, MatSlideToggleModule } from '@angular/material';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 
 @NgModule({
-  declarations: [ProfileComponent, CrupdateProfileModalComponent],
+  declarations: [ProfileComponent, CrupdateProfileModalComponent, ProfileDetailComponent],
   imports: [
     CommonModule,
     ProfileRoutingModule,

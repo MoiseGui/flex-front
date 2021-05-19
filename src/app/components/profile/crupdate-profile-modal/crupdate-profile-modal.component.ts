@@ -1,6 +1,9 @@
+import { ProfileFacade } from './../../../facades/profile.facade';
+import { FiliereFacade } from './../../../facades/filiere.facade';
+import { Filiere } from './../../../models/filiere';
 import { Professeur } from './../../../models/professeur';
 import { OnInit, Inject, Component, ChangeDetectionStrategy } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { Modal } from 'src/app/shared/ui/modal.service';
 import { ProfesseurFacade } from 'src/app/facades/professeur.facade';
@@ -22,6 +25,11 @@ export interface CrupdateProfesseurModalData {
 })
 export class CrupdateProfileModalComponent implements OnInit {
 
+
+  professeurs$: Observable<Professeur[]>;
+  professeurs: Professeur[];
+  filieres: Filiere[];
+  filieres$: Observable<Filiere[]>;
   public form = this.fb.group({
     libelle: [''],
     filieres: [''],
@@ -35,6 +43,7 @@ export class CrupdateProfileModalComponent implements OnInit {
     private modal: Modal,
     private fb: FormBuilder,
     private professeurFacade: ProfesseurFacade,
+    private filiereFacade: FiliereFacade,
     private toastService: NGXToastrService,
     private dialogRef: MatDialogRef<CrupdateProfileModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CrupdateProfesseurModalData,
@@ -48,6 +57,18 @@ export class CrupdateProfileModalComponent implements OnInit {
     if (this.data.profile) {
       this.form.patchValue(this.data.profile);
     }
+    this.professeurs$ = this.professeurFacade.getProfesseurs$();
+    this.filieres$ = this.filiereFacade.getfilieres$();
+
+    // get all professeurs
+    this.professeurs$.subscribe(profs => {
+      this.professeurs = profs;
+      // console.log("Les données",this.rows);
+    });
+    // get all filiers
+    this.filieres$.subscribe(filieres => {
+      this.filieres = filieres;
+    })
   }
 
   public close(data?: Professeur) {

@@ -16,12 +16,7 @@
     <!-- <div class="input-container"> -->
     <label for="filieres">Filieres</label>
     <select class="form-control" formControlName="filieres" id="filieres" required multiple>
-      <option value="IRISI1">IRISI1</option>
-      <option value="IRISI2">IRISI2</option>
-      <option value="IRISI3">IRISI3</option>
-      <option value="IRISI1">IRISI1</option>
-      <option value="IRISI2">IRISI2</option>
-      <option value="IRISI3">IRISI3</option>
+      <option *ngFor="let fil of filieres" value="{{fil.nom}}">{{fil.nom}}</option>
     </select>
     <div class="error" *ngIf="errors.filieres">{{errors.filieres}}</div>
     <!-- </div> -->
@@ -29,12 +24,7 @@
     <!-- <div class="input-container"> -->
     <label for="professeurs">Professeurs</label>
     <select class="form-control" formControlName="professeurs" id="professeurs" multiple required>
-      <option value="yassine@gmail.com">yassine@gmail.com</option>
-      <option value="ahmed@gmail.com">ahmed@gmail.com</option>
-      <option value="test@gmail.com">test@gmail.com</option>
-      <option value="yassine@gmail.com">yassine@gmail.com</option>
-      <option value="ahmed@gmail.com">ahmed@gmail.com</option>
-      <option value="test@gmail.com">test@gmail.com</option>
+      <option *ngFor="let prof of professeurs" value="{{prof.email}}">{{prof.email}}</option>
     </select>
     <div class="error" *ngIf="errors.professeurs">{{errors.professeurs}}</div>
     <!-- </div> -->

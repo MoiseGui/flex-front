@@ -1,13 +1,15 @@
-import { Router } from '@angular/router';
-import { ProfileFacade } from './../../facades/profile.facade';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Modal } from '../../shared/ui/modal.service';
-import { CrupdateProfileModalComponent } from './crupdate-profile-modal/crupdate-profile-modal.component';
-import { Profile } from 'src/app/models/profile';
+import {Router} from '@angular/router';
+import {ProfileFacade} from './../../facades/profile.facade';
+import {Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import swal from 'sweetalert2';
+import {Modal} from '../../shared/ui/modal.service';
+import {CrupdateProfileModalComponent} from './crupdate-profile-modal/crupdate-profile-modal.component';
+import {Profile} from 'src/app/models/profile';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
+import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {ProfileDetailComponent} from './profile-detail/profile-detail.component';
 
 @Component({
   selector: 'app-profile',
@@ -19,13 +21,14 @@ export class ProfileComponent implements OnInit {
 
   editing = {};
 
-  public title: string = "";
+  public title: string = '';
 
   // utilisé pour l'affichage dans le html
   rows = [];
   // sera utilisé pour la recherche
   temp = [];
-  @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
+  @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private modal: Modal,
@@ -45,47 +48,73 @@ export class ProfileComponent implements OnInit {
     this.profiles$.subscribe(profs => {
       this.rows = profs;
       this.temp = profs;
-      console.log("Les données", this.rows);
+      console.log('Les données', this.rows);
     });
 
     // whenever there is an error
     this.profileFacade.getError$().subscribe(message => {
       // "" means there is no error
-      if (message != "") {
+      if (message != '') {
         // alert(message);
         this.alertErrorMessage(message);
         // seet no error after handling the error
-        this.profileFacade.setError("");
+        this.profileFacade.setError('');
       }
     });
   }
+
   showCrupdateProfile(profil?: Profile) {
-    this.modal.show(CrupdateProfileModalComponent, { profil }).afterClosed().subscribe(data => {
-      if (!data) return;
+    this.modal.show(CrupdateProfileModalComponent, {profil}).afterClosed().subscribe(data => {
+      if (!data) {
+        return;
+      }
       // this.refreshCompany();
     });
   }
+
   alertErrorMessage(message: string) {
     alertFunctions.typeError(message);
   }
-  updateFilter() {
-    console.log("value")
+
+  updateFilter(event) {
+    console.log('value', event);
   }
-  removeProfile(value: any) {
-    console.log(value);
+
+  removeProfile(id: number) {
+    this.confirmDelete(id);
   }
+
   showProfile(id: number) {
-    // var newArray = array.filter(function (item) {
-    //   return condition;
-    // });
-    const profile = this.rows.filter(function (item) {
-      return (item.id === id)
+    const profile = this.rows.filter(function(item) {
+      return (item.id === id);
     });
-    this.router.navigate([`/profiles/${id}`], { state: { data: profile[0] } });
+    this.modal.show(ProfileDetailComponent, {profile}).afterClosed().subscribe(data => {
+      if (!data) {
+        return;
+      }
+    });
   }
+
   // used to sure Yes for True and No for False
   yesOrNo(value): string {
-    return value == true ? "Yes" : "No";
+    return value == true ? 'Yes' : 'No';
+  }
+
+  confirmDelete(id: number) {
+    swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      // If confirmed
+      if (result.value) {
+        this.profileFacade.removeProfile(id);
+      }
+    });
   }
 
 }

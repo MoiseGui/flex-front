@@ -30,6 +30,13 @@ export class ProfileState {
       this.profiles$.next([...profiles, profile]);
     }
   }
+  deleteProfile(id: number) {
+    let profiles = this.profiles$.getValue();
+
+    profiles = profiles.filter(profile => profile.id != id);
+
+    this.profiles$.next([...profiles]);
+  }
 
   isLoading$() {
     return this.loading$.asObservable();

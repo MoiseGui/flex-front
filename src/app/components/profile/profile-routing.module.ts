@@ -1,4 +1,3 @@
-import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile.component';
@@ -12,10 +11,6 @@ const routes: Routes = [
     },
     children: []
   },
-  {
-    path: ':id',
-    component: ProfileDetailComponent
-  }
 ];
 
 @NgModule({

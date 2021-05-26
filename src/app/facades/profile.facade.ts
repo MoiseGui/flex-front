@@ -13,6 +13,7 @@ export class ProfileFacade {
   constructor(
     private profileService: ProfileService,
     private profileState: ProfileState,
+    private toastService: NGXToastrService,
   ) {
     this.loadProfiles();
   }
@@ -40,7 +41,7 @@ export class ProfileFacade {
       if (res.id) {
         this.profileState.addProfile(res);
         // show success message
-        message.next("Profile added successfully.");
+        message.next("Ok");
       } else {
         // show api error message !
         message.next(res.message)
@@ -72,7 +73,17 @@ export class ProfileFacade {
     return text;
   }
 
-
+  removeProfile(id: number) {
+    this.profileService.deleteProfile(id).subscribe(response => {
+      if (response.id === id) {
+        this.toastService.typeSuccess(`Profile ${response.libelle} deleted successfully`);
+        this.profileState.deleteProfile(id);
+      }
+      else {
+        this.toastService.typeError(response.message);
+      }
+    });
+  }
   getError$() {
     return this.profileState.getError$();
   }
@@ -87,5 +98,9 @@ export class ProfileFacade {
 
   setLoading(value: boolean) {
     this.profileState.setLoading(value);
+  }
+
+  updateProfile(id, value: any) {
+
   }
 }

@@ -44,5 +44,8 @@ export class ProfileService {
     const { libelle, open, professeurs, filieres, /* events, specialEvents */ } = Profile;
     return this.http.post<Profile>(`${this.API}/`, { libelle, open, professeurs, filieres, /* events, specialEvents */ }, { headers: this.headers });
   }
+  deleteProfile(id: number): Observable<any> {
+    return this.http.delete<Profile>(`${this.API}/id/${id}`, { headers: this.headers });
+  }
 
 }

@@ -77,13 +77,8 @@ export class CrupdateProfileModalComponent implements OnInit {
   }
 
   public confirm() {
+    // this.fi
     const profile: Profile = this.form.value;
-    // console.log(profile);
-    // this.profileFacade.addProfile(profile).subscribe((msg: string) => {
-    //   this.toastService.typeSuccess(msg);
-    // }, error => {
-    //   this.toastService.typeError(error.message);
-    // });
     this.profileFacade.setLoading(true);
     if (profile.filieres === null) {
       profile.filieres = [];
@@ -98,12 +93,12 @@ export class CrupdateProfileModalComponent implements OnInit {
     }
     let request;
     if (this.data.profil) {
-      request = this.profileFacade.updateProfile(this.data.profil.id, this.form.value);
+      request = this.profileFacade.updateProfile(this.data.profil.id, profile);
+      console.log(profile);
       console.log('update');
     } else {
       request = this.profileFacade.addProfile(profile);
     }
-
     request
       .pipe(finalize(() => this.profileFacade.setLoading(false)))
       .subscribe(response => {

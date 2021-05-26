@@ -30,8 +30,6 @@ export class ProfileDetailComponent implements OnInit {
   professeurs: Professeur[];
   filieres: Filiere[];
   panelOpenState: boolean = false;
-  rows_fil = [];
-  rows_prof = [];
 
   constructor(
     private modal: Modal,
@@ -47,12 +45,10 @@ export class ProfileDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.rows_fil = this.data.profile[0].filieres;
-    // this.rows_prof = this.data.profile[0].professeurs;
     this.professeurs = this.data.profil[0].professeurs;
     this.filieres = this.data.profil[0].filieres;
-    // console.log('profs', this.professeurs);
-    // console.log('fils', this.filieres);
+    console.log('profs', this.professeurs);
+    console.log('fils', this.filieres);
   }
 
   public close() {

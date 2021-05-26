@@ -85,10 +85,10 @@ export class ProfileComponent implements OnInit {
   }
 
   showProfile(id: number) {
-    const profile = this.rows.filter(function(item) {
+    const profil = this.rows.filter(function(item) {
       return (item.id === id);
     });
-    this.modal.show(ProfileDetailComponent, {profile}).afterClosed().subscribe(data => {
+    this.modal.show(ProfileDetailComponent, {profil}).afterClosed().subscribe(data => {
       if (!data) {
         return;
       }

@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Profile } from '../models/profile';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {Profile} from '../models/profile';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,10 @@ export class ProfileState {
 
   private profiles$ = new BehaviorSubject<Profile[]>(null);
   private loading$ = new BehaviorSubject<boolean>(false);
-  private error$ = new BehaviorSubject<string>("");
+  private error$ = new BehaviorSubject<string>('');
 
-  constructor() { }
+  constructor() {
+  }
 
   getProfiles$() {
     return this.profiles$.asObservable();
@@ -30,6 +31,25 @@ export class ProfileState {
       this.profiles$.next([...profiles, profile]);
     }
   }
+
+  updateProfile(id: number, profile: Profile) {
+    // get value of profile observable
+    const profiles = this.profiles$.getValue();
+
+    // foreach can't get the job done
+
+    // changer existance profile with a new profile
+    //
+    for (let i = 0; i < profiles.length; i++) {
+      if (profiles[i].id == profile.id) {
+        profiles[i] = profile;
+      }
+    }
+
+    // ajouter new data profile to obserable
+    this.profiles$.next([...profiles]);
+  }
+
   deleteProfile(id: number) {
     let profiles = this.profiles$.getValue();
 
@@ -47,7 +67,7 @@ export class ProfileState {
   }
 
   setError(message) {
-    this.error$.next(message)
+    this.error$.next(message);
   }
 
   getError$() {

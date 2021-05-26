@@ -15,10 +15,11 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
     },
     { path: '/filieres/list', title: 'Filieres', icon: 'ft-droplet', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-    {
+
+  {
         path: '', title: 'Emploi du temps', icon: 'ft-calendar',class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [
-            { path: '/emplois/list', title: 'Par salle ', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { path: '/calendar', title: 'Par salle ', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/emplois/add', title: 'Par Filiere ', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
     },
@@ -180,7 +181,7 @@ export const ROUTES: RouteInfo[] = [
             { path: '/charts/ngx', title: 'NGX Chart', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
     },
-    { path: '/calendar', title: 'Calendar', icon: 'ft-calendar', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+
     {
         path: '', title: 'Pages', icon: 'ft-copy', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [

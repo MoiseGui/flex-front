@@ -27,11 +27,11 @@ export const Full_ROUTES: Routes = [
   //   path:'dispatcher',
   //    loadChildren:()=> import('../../components/dispatcher/dispatcher.module').then(m=>m.DispatcherModule),
   // },
- /* {
+ {
     path: 'calendar',
-    loadChildren: () => import('../../calendar/calendar.module').then(m => m.CalendarsModule)
+    loadChildren: () => import('../../components/calendar/calendar.module').then(m => m.CalendarsModule)
   },
-  {
+  /* {
     path: 'charts',
     loadChildren: () => import('../../charts/charts.module').then(m => m.ChartsNg2Module)
   },

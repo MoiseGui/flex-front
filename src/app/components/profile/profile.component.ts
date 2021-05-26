@@ -68,7 +68,7 @@ export class ProfileComponent implements OnInit {
   alertErrorMessage(message: string) {
     alertFunctions.typeError(message);
   }
-  updateFilter() {
+  updateFilter(event = null) {
     console.log("value")
   }
   removeProfile(value: any) {

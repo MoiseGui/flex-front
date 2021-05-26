@@ -1,1 +1,61 @@
-<p>{{profile.libelle}}</p>
+<div class="modal-header">
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title>Profile Details</h2>
+  <button type="button" (click)="close()" class="close-button no-style" tabindex="-1"><i
+    class="ft-x font-medium-3 mr-2"></i></button>
+</div>
+<div class="row d-flex">
+  <div class="col-12">
+    <h2 class="justify-content-center">{{data.profil[0].libelle}}</h2>
+  </div>
+
+</div>
+<div class="row d-flex">
+  <div class="col-12">
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Filieres
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item *ngFor="let fil of filieres"><span class="font-weight-bold">Nom : </span> {{fil.nom}}
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Professeurs
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item *ngFor="let prof of professeurs">
+            <span class="font-weight-bold">Nom : </span> {{prof.nom}}<br>
+            <span class="font-weight-bold ml-2">Prenom : </span> {{prof.prenom}}
+            <span class="font-weight-bold ml-2">Admin : </span> {{prof.admin}}
+<!--            <span class="font-weight-bold ml-2">Email : </span> {{prof.email}}<br>-->
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+</div>
+
+
+<!--<ng-template #matExpansionPanelContent>-->
+
+<!--</ng-template>-->
+
+
+<!--<div class="lessons-list" *ngIf="lessons else loading">-->
+<!--  ...-->
+<!--</div>-->
+
+<!--<ng-template #loading>-->
+<!--  <div>Loading...</div>-->
+<!--</ng-template>-->
+

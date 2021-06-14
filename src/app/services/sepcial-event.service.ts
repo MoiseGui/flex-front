@@ -46,15 +46,15 @@ export class SepcialEventService {
     return this.http.get<SpecialEvent>(`${this.API}/nom/${nom}`, {headers: this.headers})
   }
 
-  update(event: SpecialEvent): Observable<SpecialEvent> {
+  update(event: SpecialEvent): Observable<any> {
 
     const { id, nom, desc, salle, profiles, date, heureDeb, heureFin, activated } = event
     const salleId = salle.id
     const profilesId = profiles.map(profile => profile.id)
-    return this.http.put<SpecialEvent>(`${this.API}/${id}`, { nom, desc , salleId, profilesId, date, heureDeb, heureFin, activated}, {headers: this.headers})
+    return this.http.put<any>(`${this.API}/${id}`, { nom, desc , salleId, profilesId, date, heureDeb, heureFin, activated}, {headers: this.headers})
   }
 
-  delete(event: SpecialEvent): Observable<any> {
-    return this.http.delete(`${this.API}/${event.id}`, {headers: this.headers})
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.API}/${id}`, {headers: this.headers})
   }
 }

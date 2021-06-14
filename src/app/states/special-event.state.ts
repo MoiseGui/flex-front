@@ -13,7 +13,7 @@ export class SpecialEventState {
 
   constructor() {}
 
-  getSpecialEvents() {
+  getSpecialEvents$() {
     return this.specialEvents$.asObservable()
   }
 

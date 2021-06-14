@@ -1,37 +1,41 @@
 <div class="modal-header">
-  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="data.professeur" >Update student</h2>
-  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="!data.professeur" >Create a new student</h2>
-  <button type="button" (click)="close()" class="close-button no-style" tabindex="-1"><i class="ft-x font-medium-3 mr-2"></i></button>
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="data.etudiant">Update student</h2>
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="!data.etudiant">Create a new student</h2>
+  <button type="button" (click)="close()" class="close-button no-style" tabindex="-1"><i
+    class="ft-x font-medium-3 mr-2"></i></button>
 </div>
 
 <form autocomplete="off" (submit)="confirm()" *ngIf="errors$ | async as errors" [formGroup]="form" ngNativeValidate>
   <div class="many-inputs mat-dialog-content" mat-dialog-content>
     <div class="input-container">
-      <label for="nom" >Nom</label>
-      <input type="text" formControlName="nom" id="nom" required>
+      <label for="nom">Nom</label>
+      <input type="text" name="nom" formControlName="nom" id="nom" required>
       <div class="error" *ngIf="errors.nom">{{errors.nom}}</div>
     </div>
 
     <div class="input-container">
-      <label for="prenom" >Prénom</label>
+      <label for="prenom">Prénom</label>
       <input type="text" formControlName="prenom" id="prenom" required>
       <div class="error" *ngIf="errors.prenom">{{errors.prenom}}</div>
     </div>
 
     <div class="input-container">
-      <label for="email" >Email</label>
+      <label for="email">Email</label>
       <input type="email" formControlName="email" id="email" required>
       <div class="error" *ngIf="errors.email">{{errors.email}}</div>
     </div>
 
-    <div class="input-container" *ngIf="!data.professeur">
-      <label for="password" >Password</label>
-      <input type="password" formControlName="password" id="password" required>
-      <div class="error" *ngIf="errors.password">{{errors.password}}</div>
-    </div>
-
+    <!--    <div class="input-container" *ngIf="!data.etudiant">-->
+    <!--      <label for="password">Password</label>-->
+    <!--      <input type="password" formControlName="password" id="password" required>-->
+    <!--      <div class="error" *ngIf="errors.password">{{errors.password}}</div>-->
+    <!--    </div>-->
+    <label for="fil">Filiere</label>
+    <select id="fil" formControlName="filierId" class="form-control" required>
+      <option *ngFor="let fil of filieres$ | async" value="{{fil.id}}">{{fil.nom}}</option>
+    </select>
     <div class="input-container">
-      <label for="cne" >cne</label>
+      <label for="cne">cne</label>
       <input type="text" formControlName="cne" id="cne" required>
       <div class="error" *ngIf="errors.email">{{errors.email}}</div>
     </div>
@@ -41,10 +45,10 @@
   </div>
 
   <div class="buttons right mat-dialog-actions" mat-dialog-actions>
-    <button (click)="close()" type="button" class="button cancel" mat-button >Cancel</button>
+    <button (click)="close()" type="button" class="button cancel" mat-button>Cancel</button>
     <button type="submit" mat-raised-button color="accent" class="action-button" [disabled]="loading$ | async">
-      <span *ngIf="data.etudiant" >Update</span>
-      <span *ngIf="!data.etudiant" >Create</span>
+      <span *ngIf="data.etudiant">Update</span>
+      <span *ngIf="!data.etudiant">Create</span>
     </button>
   </div>
 </form>

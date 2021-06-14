@@ -9,7 +9,8 @@
   <div class="many-inputs mat-dialog-content" mat-dialog-content>
     <div class="input-container">
       <label>Libelle</label>
-      <input [value]="data.profil.libelle" type="text" formControlName="libelle" required>
+      <input *ngIf="data.profil" [value]="data.profil.libelle" type="text" formControlName="libelle" required>
+      <input *ngIf="!data.profil" type="text" formControlName="libelle" required>
       <!--      <input *ngIf="!data.profil" type="text" formControlName="libelle" required>-->
       <div class="error" *ngIf="errors.libelle">{{errors.libelle}}</div>
     </div>
@@ -23,12 +24,16 @@
     <!-- </div> -->
 
     <!-- <div class="input-container"> -->
-    <label for="professeurs">Professeurs</label>
+    <label>Professeurs</label>
     <select class="form-control" formControlName="professeurs" id="professeurs" multiple>
       <option *ngFor="let prof of professeurs$ | async" value="{{prof.email}}">{{prof.email}}</option>
     </select>
     <div class="error" *ngIf="errors.professeurs">{{errors.professeurs}}</div>
-    <!-- </div> -->
+    <!--    <ng-select [multiple]="true"-->
+    <!--               placeholder="Select user or add custom tag" [(ngModel)]="selectedUserIds">-->
+    <!--      <ng-option *ngFor="let prof of professeurs$ | async" [value]="prof.email">{{prof.email}}</ng-option>-->
+    <!--      <ng-option [value]="'custom'">Custom</ng-option>-->
+    <!--    </ng-select>-->
     <div class="setting-container">
       <mat-slide-toggle formControlName="open" id="open">Open</mat-slide-toggle>
       <p>Define if the profile is open</p>

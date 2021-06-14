@@ -29,6 +29,7 @@ export class CrupdateProfileModalComponent implements OnInit {
   professeurs: Professeur[];
   filieres: Filiere[];
   filieres$: Observable<Filiere[]>;
+  selectedUserIds: number[];
   public form = this.fb.group({
     libelle: [''],
     filieres: [''],
@@ -37,7 +38,7 @@ export class CrupdateProfileModalComponent implements OnInit {
   });
   public loading$ = this.professeurFacade.getLoading$();
   public errors$ = new BehaviorSubject<Partial<Profile>>({});
-
+  addCustomUser = (term) => ({id: term, name: term});
   constructor(
     private modal: Modal,
     private fb: FormBuilder,

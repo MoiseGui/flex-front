@@ -1,3 +1,68 @@
-<p>
-  etudiant works!
-</p>
+<!--DataTable With Editing Feature Starts-->
+<section id="editing-DataTable" class="mb-3">
+  <div class="row text-left">
+    <div class="col-sm-12">
+      <div class="content-header">{{title}}</div>
+      <p class="content-sub-header">Double click on any content to edit that section.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <p><a href="javascript:void(0)" (click)="showCrupdateEtudiant()"
+            class="btn btn-raised mr-1 shadow-z-2 btn-primary">Add a
+        new etudiant</a></p>
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" style="display: inline-block">Etudiants</h4>
+          <input type='text' style='padding:8px;margin:15px auto;width:30%; display: inline-block; float: right'
+                 placeholder='Type to filter the name column...' (keyup)='updateFilter($event)'/>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <ngx-datatable #mydatatable class="bootstrap" [headerHeight]="50" [limit]="5" [columnMode]="'force'"
+                           [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+              <ngx-datatable-column name="Numéro" prop="id">
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{row.id}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Cne" prop="cne">
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{row.cne}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Nom" prop="nom">
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{row.nom}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Prenom" prop="prenom">
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{row.prenom}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Email" prop="email">
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+                  {{row.email}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Remove" prop="id" sortable="false">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  <span title="Remove">
+                    <!--                  <a href="javascript:void(0)" (click)="removeSalle(value)" class="btn btn-danger mr-1 btn-fab"><i class="fa fa-trash-o"></i></a>-->
+                    <a class="danger p-0" href="javascript:void(0)" (click)="removeEtudinat(value)"
+                       data-original-title="" title="Remove">
+                      <i class="ft-x font-medium-3 mr-2"></i>
+                    </a>
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--DataTable With Editing Feature Ends-->
+</section>

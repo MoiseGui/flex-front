@@ -35,10 +35,21 @@ export const Full_ROUTES: Routes = [
   //   path:'dispatcher',
   //    loadChildren:()=> import('../../components/dispatcher/dispatcher.module').then(m=>m.DispatcherModule),
   // },
+<<<<<<< HEAD
   /* {
      path: 'calendar',
      loadChildren: () => import('../../calendar/calendar.module').then(m => m.CalendarsModule)
    },
+=======
+ {
+    path: 'calendar',
+    loadChildren: () => import('../../components/calendar/calendar.module').then(m => m.CalendarsModule)
+  },
+  /* {
+    path: 'charts',
+    loadChildren: () => import('../../charts/charts.module').then(m => m.ChartsNg2Module)
+  },
+>>>>>>> 8480239faa44f0bd8ed5c469b21ff61414684983
    {
      path: 'charts',
      loadChildren: () => import('../../charts/charts.module').then(m => m.ChartsNg2Module)

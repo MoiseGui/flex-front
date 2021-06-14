@@ -33,20 +33,17 @@ export class ProfileState {
   }
 
   updateProfile(id: number, profile: Profile) {
-    // get value of profile observable
+    // get value of profiles observable
     const profiles = this.profiles$.getValue();
 
-    // foreach can't get the job done
-
-    // changer existance profile with a new profile
-    //
+    // change the existed profile with a new updated profile
     for (let i = 0; i < profiles.length; i++) {
       if (profiles[i].id == profile.id) {
         profiles[i] = profile;
       }
     }
 
-    // ajouter new data profile to obserable
+    // add new data profile to observable
     this.profiles$.next([...profiles]);
   }
 

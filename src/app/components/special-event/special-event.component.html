@@ -1,0 +1,76 @@
+<!--DataTable With Editing Feature Starts-->
+<section id="editing-DataTable" class="mb-3">
+  <div class="row text-left">
+    <div class="col-sm-12">
+      <div class="content-header">{{title}}</div>
+      <p class="content-sub-header">Double click on any content to edit that section.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <p><a href="javascript:void(0)" (click)="addNewEventSpecial()"
+            class="btn btn-raised mr-1 shadow-z-2 btn-primary">new Special Events</a></p>
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" style="display: inline-block">Special Events</h4>
+          <input type='text' style='padding:8px;margin:15px auto;width:30%; display: inline-block; float: right'
+                 placeholder='Type to filter the name column...' (keyup)='updateFilter($event)'/>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <ngx-datatable #mydatatable class="bootstrap" [headerHeight]="50" [limit]="5" [columnMode]="'force'"
+                           [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+              <ngx-datatable-column name="Numéro" prop="id">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Nom" prop="nom">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Description" prop="desc">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Date" prop="date">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="heure Debut" prop="heureDeb">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="heure Fin" prop="heureFin">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Activated" prop="activated">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  {{yesOrNo(value)}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Actions" prop="id" sortable="false">
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  <span title="Remove">
+                    <a class="success p-0" href="javascript:void(0)" (click)="showEventDetails(row)"
+                       data-original-title="" title="Edit">
+                      <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                    </a>
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--DataTable With Editing Feature Ends-->
+</section>

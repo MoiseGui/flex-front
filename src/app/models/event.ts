@@ -16,11 +16,11 @@ export interface Event extends EventBase {
   // eventLogs: EventLog[];
 }
 
-export interface SpecialEvent extends  EventBase {
+export interface SpecialEvent extends EventBase {
 
-    date: string;
-    heureDeb: string;
-    heureFin: string;
-    activated: boolean;
+  date: string;
+  heureDeb: string;
+  heureFin: string;
+  activated: boolean;
 
 }

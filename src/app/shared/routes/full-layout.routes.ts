@@ -28,14 +28,17 @@ export const Full_ROUTES: Routes = [
     loadChildren: () => import('../../components/professeur/professeur.module').then(m => m.ProfesseurModule),
   },
   {
-    path: 'calender',
-    loadChildren: () => import('../../components/calendar/calendar.module').then(m => m.CalendarsModule),
+    path: 'events-special',
+    loadChildren: () => import('../../components/special-event/special-event.module').then(m => m.SpecialEventModule),
   },
+  // {
+  //   path: 'calender',
+  //   loadChildren: () => import('../../components/calendar/calendar.module').then(m => m.CalendarsModule),
+  // },
   // {
   //   path:'dispatcher',
   //    loadChildren:()=> import('../../components/dispatcher/dispatcher.module').then(m=>m.DispatcherModule),
   // },
-<<<<<<< HEAD
   /* {
      path: 'calendar',
      loadChildren: () => import('../../calendar/calendar.module').then(m => m.CalendarsModule)

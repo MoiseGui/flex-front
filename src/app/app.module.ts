@@ -1,4 +1,5 @@
-import {CalendarsModule} from './components/calendar/calendar.module';
+// import {CalendarsModule} from './components/calendar/calendar.module';
+import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {CrupdateEtudiantModalComponent} from './components/etudiant/crupdate-etudiant-modal/crupdate-etudiant-modal.component';
 import {CrupdateProfileModalComponent} from './components/profile/crupdate-profile-modal/crupdate-profile-modal.component';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
@@ -27,12 +28,14 @@ import {
 import {LoginPageComponent} from './components/login/login-page.component';
 import {CrupdateProfesseurModalComponent} from './components/professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
 import {ProfileDetailComponent} from './components/profile/profile-detail/profile-detail.component';
+import {AddNewEventComponent} from './components/special-event/addnewevent/addnewevent.component';
 import {AuthService} from './shared/auth/auth.service';
 import {AuthGuard} from './shared/auth/auth-guard.service';
 import {GuestGard} from './shared/auth/guest-guard.service';
 import {SharedModule} from './shared/shared.module';
 import {ToastrComponent} from './shared/toastr/toastr.component';
 import {NGXToastrService} from './shared/toastr/toastr.service';
+import { SpecialEventComponent } from './components/special-event/special-event.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -48,7 +51,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, ToastrComponent, LoginPageComponent],
+  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, ToastrComponent, LoginPageComponent, SpecialEventComponent],
   imports: [BrowserModule, BrowserAnimationsModule, ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -58,13 +61,12 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     HttpClientModule, MatDialogModule,
-    CalendarsModule,
     MatButtonModule, NgbModule, SharedModule,
     AppRoutingModule, PerfectScrollbarModule, NgbModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: momentAdapterFactory
-    }), ReactiveFormsModule],
+    }), ReactiveFormsModule, NgxDatatableModule],
   providers: [AuthService,
     AuthGuard,
     GuestGard,
@@ -81,7 +83,8 @@ export function createTranslateLoader(http: HttpClient) {
     CrupdateProfesseurModalComponent,
     CrupdateProfileModalComponent,
     ProfileDetailComponent,
-    CrupdateEtudiantModalComponent
+    CrupdateEtudiantModalComponent,
+    AddNewEventComponent
 
   ]
 })

@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
-import {ProfesseurFacade} from '../../facades/professeur.facade';
+import swal from 'sweetalert2';
 import {SpecialEventFacade} from '../../facades/special-event.facade';
 import {SpecialEvent} from '../../models/event';
-import {Professeur} from '../../models/professeur';
+
 import {Modal} from '../../shared/ui/modal.service';
-import {CrupdateProfesseurModalComponent} from '../professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
 import {AddNewEventComponent} from './addnewevent/addnewevent.component';
 
 @Component({
@@ -81,6 +80,32 @@ export class SpecialEventComponent implements OnInit {
         return;
       }
       // this.refreshCompany();
+    });
+  }
+
+  revmoveEvent(id: number) {
+    this.confirmDelete(id);
+  }
+
+  confirmDelete(id: number) {
+    swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      // If confirmed
+      if (result.value) {
+        this.specialEventFacade.deleteEvent(id);
+        // swal.fire(
+        //   'Deleted!',
+        //   'Your file has been deleted.',
+        //   'success'
+        // )
+      }
     });
   }
 }

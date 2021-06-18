@@ -1,1 +1,62 @@
-<p>work</p>
+<div class="modal-header">
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title>Add a new Special Event</h2>
+  <button type="button" (click)="close()" class="close-button no-style" tabindex="-1"><i
+    class="ft-x font-medium-3 mr-2"></i></button>
+</div>
+<form autocomplete="off" *ngIf="errors$ | async as errors" [formGroup]="form" ngNativeValidate>
+  <div class="many-inputs mat-dialog-content" mat-dialog-content>
+    <div class="input-container">
+      <label for="nom">Nom</label>
+      <input type="text" formControlName="nom" id="nom" required>
+      <div class="error" *ngIf="errors.nom">{{errors.nom}}</div>
+    </div>
+    <div class="input-container">
+      <label for="nom">Description</label>
+      <textarea type="text" formControlName="desc" id="dsec" required></textarea>
+      <div class="error" *ngIf="errors.nom">{{errors.nom}}</div>
+    </div>
+    <div class="input-container">
+      <label for="nom">Salle</label>
+      <select type="text" formControlName="salleId" id="salleId" required>
+        <option value="">Choose Room</option>
+        <option *ngFor="let s of salles" value="{{s.id}}">{{s.nom}}</option>
+      </select>
+      <div class="error" *ngIf="errors.nom">{{errors.nom}}</div>
+    </div>
+    <div class="input-container">
+      <label for="nom">Profile</label>
+      <select type="text" formControlName="profiles" id="profiles" required multiple>
+        <option value="">Choose Profile</option>
+        <option *ngFor="let profile of profiles" value="{{profile.id}}">{{profile.libelle}}</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <input class="form-control" placeholder="yyyy-mm-dd"
+             name="dp" formControlName="date" ngbDatepicker #d="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><i
+          class="ft-align-center"></i></button>
+      </div>
+    </div>
+
+    <div class="input-container">
+      <label for="nom">Heure Debut</label>
+      <ngb-timepicker formControlName="heureDeb"></ngb-timepicker>
+    </div>
+    <div class="input-container">
+      <label for="nom">Heure Fin</label>
+      <ngb-timepicker formControlName="heureFin"></ngb-timepicker>
+    </div>
+    <div class="setting-container">
+      <mat-slide-toggle formControlName="activated" id="activated">Activated</mat-slide-toggle>
+      <p>Define if the event is an activated</p>
+    </div>
+  </div>
+
+  <div class="buttons right mat-dialog-actions" mat-dialog-actions>
+    <button (click)="close()" type="button" class="button cancel" mat-button>Cancel</button>
+    <button (click)="confirm()" type="submit" mat-raised-button color="accent" class="action-button">
+      <span>Create</span>
+    </button>
+  </div>
+</form>

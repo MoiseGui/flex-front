@@ -58,12 +58,19 @@
               </ngx-datatable-column>
               <ngx-datatable-column name="Actions" prop="id" sortable="false">
                 <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-                  <span title="Remove">
+                  <span title="Edit">
                     <a class="success p-0" href="javascript:void(0)" (click)="showEventDetails(row)"
                        data-original-title="" title="Edit">
                       <i class="ft-edit-2 font-medium-3 mr-2"></i>
                     </a>
                   </span>
+                  <span title="Remove">
+                    <a class="danger p-0" href="javascript:void(0)" (click)="revmoveEvent(value)"
+                       data-original-title="" title="Remove">
+                      <i class=" ft-trash-2 font-medium-3 mr-2"></i>
+                    </a>
+                  </span>
+
                 </ng-template>
               </ngx-datatable-column>
             </ngx-datatable>

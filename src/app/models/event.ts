@@ -6,8 +6,8 @@ export interface EventBase {
   id?: number;
   nom: string;
   desc: string;
-  salle: Salle;
-  profiles: Profile[];
+  salleId: number;
+  profiles: number[];
 }
 
 export interface Event extends EventBase {

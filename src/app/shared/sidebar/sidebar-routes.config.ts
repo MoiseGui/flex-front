@@ -19,22 +19,9 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {path: '/filieres/list', title: 'Filieres', icon: 'ft-droplet', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []},
-
   {
-    path: '', title: 'Emploi du temps', icon: 'ft-calendar', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
-    submenu: [
-      {path: '/calendar', title: 'Par salle ', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []},
-      {
-        path: '/emplois/add',
-        title: 'Par Filiere ',
-        icon: 'ft-message-square',
-        class: '',
-        badge: '',
-        badgeClass: '',
-        isExternalLink: false,
-        submenu: []
-      },
-    ]
+    path: '/calendar', title: 'Emploi du temps', icon: 'ft-calendar', class: '', badge: '', badgeClass: '', isExternalLink: false,
+    submenu: []
   },
 
   {path: '/profiles', title: 'Profiles', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []},

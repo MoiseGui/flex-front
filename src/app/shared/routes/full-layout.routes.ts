@@ -31,10 +31,10 @@ export const Full_ROUTES: Routes = [
     path: 'events-special',
     loadChildren: () => import('../../components/special-event/special-event.module').then(m => m.SpecialEventModule),
   },
-  // {
-  //   path: 'calender',
-  //   loadChildren: () => import('../../components/calendar/calendar.module').then(m => m.CalendarsModule),
-  // },
+  {
+    path: 'calendar',
+    loadChildren: () => import('../../components/calendar/calendar.module').then(m => m.CalendarsModule),
+  },
   // {
   //   path:'dispatcher',
   //    loadChildren:()=> import('../../components/dispatcher/dispatcher.module').then(m=>m.DispatcherModule),

@@ -2,8 +2,10 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
-  TemplateRef
+  TemplateRef, Inject, OnInit
 } from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   startOfDay,
   endOfDay,
@@ -14,13 +16,21 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {BehaviorSubject, Subject, Subscription} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent
 } from 'angular-calendar';
+import {ProfileFacade} from '../../facades/profile.facade';
+import {SalleFacade} from '../../facades/salle.facade';
+import {SpecialEventFacade} from '../../facades/special-event.facade';
+import {Professeur} from '../../models/professeur';
+import {Profile} from '../../models/profile';
+import {Salle} from '../../models/salle';
+import {NGXToastrService} from '../../shared/toastr/toastr.service';
+import {Modal} from '../../shared/ui/modal.service';
 
 const colors: any = {
   red: {
@@ -44,8 +54,9 @@ const colors: any = {
   styleUrls: ['./calendar.component.scss']
 })
 
-export class CalendarsComponent {
+export class CalendarsComponent implements OnInit {
   @ViewChild('modalContent', {static: false}) modalContent: TemplateRef<any>;
+  type_event: boolean = true;
 
   view: string = 'week';
 
@@ -58,16 +69,31 @@ export class CalendarsComponent {
     event: CalendarEvent;
   };
 
+  ngOnInit() {
+    this.sub_salles = this.salleFacade.getSalles$().subscribe((data) => {
+      this.salles = data;
+    });
+    this.sub_profiles = this.sub_profiles = this.profileFacade.getProfiles$().subscribe((data) => {
+      this.profiles = data;
+    });
+  }
+
+  public salles: Array<Salle>;
+  public profiles: Array<Profile>;
+  sub_salles: Subscription;
+  sub_profiles: Subscription;
+  public errors$ = new BehaviorSubject<Partial<Professeur>>({});
+
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({event}: { event: CalendarEvent }): void => {
         this.handleEvent('Edit this event', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({event}: { event: CalendarEvent }): void => {
         this.events = this.events.filter(iEvent => iEvent !== event);
         // this.handleEvent('This event is deleted!', event);
       }
@@ -112,9 +138,22 @@ export class CalendarsComponent {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) { }
+  constructor(
+    private modal: NgbModal,
+    private fb: FormBuilder,
+    private eventSFacade: SpecialEventFacade,
+    private salleFacade: SalleFacade,
+    private profileFacade: ProfileFacade,
+    private toastService: NGXToastrService,
+  ) {
+    this.eventSFacade.setLoading(false);
+    this.resetState();
+  }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  private resetState() {
+  }
+
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -129,10 +168,10 @@ export class CalendarsComponent {
   }
 
   eventTimesChanged({
-      event,
-    newStart,
-    newEnd
-    }: CalendarEventTimesChangedEvent): void {
+                      event,
+                      newStart,
+                      newEnd
+                    }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
@@ -140,8 +179,8 @@ export class CalendarsComponent {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    this.modalData = {event, action};
+    this.modal.open(this.modalContent, {size: 'lg'});
   }
 
   addEvent(): void {
@@ -156,12 +195,17 @@ export class CalendarsComponent {
         afterEnd: true
       },
       actions: this.actions,
-    }
+    };
     this.events.push(this.newEvent);
 
     // this.refresh.next();
     this.handleEvent('Add new event', this.newEvent);
-     this.refresh.next();
+    this.refresh.next();
+  }
+
+  addSpecialEvent(): void {
+
   }
 }
+
 //Calendar event handler ends

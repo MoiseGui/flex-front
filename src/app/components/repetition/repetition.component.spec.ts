@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpecialEventComponent } from './special-event.component';
+import { RepetitionComponent } from './repetition.component';
 
-describe('SpecialEventComponent', () => {
-  let component: SpecialEventComponent;
-  let fixture: ComponentFixture<SpecialEventComponent>;
+describe('RepetitionComponent', () => {
+  let component: RepetitionComponent;
+  let fixture: ComponentFixture<RepetitionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpecialEventComponent ]
+      declarations: [ RepetitionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpecialEventComponent);
+    fixture = TestBed.createComponent(RepetitionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

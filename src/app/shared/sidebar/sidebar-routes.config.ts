@@ -23,10 +23,14 @@ export const ROUTES: RouteInfo[] = [
     path: '/calendar', title: 'Emploi du temps', icon: 'ft-calendar', class: '', badge: '', badgeClass: '', isExternalLink: false,
     submenu: []
   },
-
-  {path: '/profiles', title: 'Profiles', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []},
   {
-    path: '/events-special', title: 'events special', icon: 'ft-home', class: '', badge: '', badgeClass: '', isExternalLink: false,
+    path: '/repetitions', title: 'Repetitions', icon: 'ft-home', class: '', badge: '', badgeClass: '', isExternalLink: false,
     submenu: []
   },
+  {
+    path: '/periodes', title: 'Liste des periodes', icon: 'ft-calendar', class: '', badge: '', badgeClass: '', isExternalLink: false,
+    submenu: []
+  },
+  {path: '/profiles', title: 'Profiles', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []},
+
 ];

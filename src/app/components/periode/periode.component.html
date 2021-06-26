@@ -8,12 +8,12 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <p><a href="javascript:void(0)" (click)="addNewEventSpecial()"
-            class="btn btn-raised mr-1 shadow-z-2 btn-primary">new Special Events</a></p>
+      <p><a href="javascript:void(0)" (click)="showCrupdatePeriode()"
+            class="btn btn-raised mr-1 shadow-z-2 btn-primary">Add a new Period</a></p>
 
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title" style="display: inline-block">Special Events</h4>
+          <h4 class="card-title" style="display: inline-block">Professors</h4>
           <input type='text' style='padding:8px;margin:15px auto;width:30%; display: inline-block; float: right'
                  placeholder='Type to filter the name column...' (keyup)='updateFilter($event)'/>
         </div>
@@ -26,51 +26,33 @@
                   {{value}}
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Nom" prop="nom">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Description" prop="desc">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Date" prop="date">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="heure Debut" prop="heureDeb">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="heure Fin" prop="heureFin">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Activated" prop="activated">
+              <ngx-datatable-column name="Libelle" prop="libelle">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  {{yesOrNo(value)}}
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="date Debut" prop="dateDeb">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="date Fin" prop="dateFin">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  {{value}}
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column name="Actions" prop="id" sortable="false">
                 <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-                  <span title="Edit">
-                    <a class="success p-0" href="javascript:void(0)" (click)="showEventDetails(row)"
+                  <span title="Update">
+                    <a class="success p-0" href="javascript:void(0)" (click)="showCrupdatePeriode(row)"
                        data-original-title="" title="Edit">
                       <i class="ft-edit-2 font-medium-3 mr-2"></i>
                     </a>
-                  </span>
-                  <span title="Remove">
-                    <a class="danger p-0" href="javascript:void(0)" (click)="revmoveEvent(value)"
+                    <a class="danger p-0" href="javascript:void(0)" (click)="removePeriod(value)"
                        data-original-title="" title="Remove">
-                      <i class=" ft-trash-2 font-medium-3 mr-2"></i>
+                      <i class="ft-x font-medium-3 mr-2"></i>
                     </a>
                   </span>
-
                 </ng-template>
               </ngx-datatable-column>
             </ngx-datatable>

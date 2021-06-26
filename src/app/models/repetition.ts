@@ -7,7 +7,7 @@ export interface Repetition {
   id?: number
   event: Event
   periode: Periode
-  jour: string
+  jour: number
   creneau: Creneau;
 
 }

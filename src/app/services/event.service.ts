@@ -26,10 +26,14 @@ export class EventService {
 
   createEvent(event: Event): Observable<any> {
 
-    const { nom, desc, salle, profiles, repetitions } = event
-    const profilesIds = profiles.map((profile) => profile.id)
-    const repetitionsIds = repetitions.map((rep) => rep.id)
-    const salleId = salle.id
+    const { nom, desc, salleId, profiles, repetitions } = event
+
+    //const profilesIds = profiles.map((profile) => profile.id)
+    //const repetitionsIds = repetitions.map((rep) => rep.id)
+    //const salleId = salle.id
+
+    const profilesIds = profiles;
+    const repetitionsIds = repetitions
 
     return this.http.post(`${this.API}/`, { nom, desc, salleId , profilesIds, repetitionsIds }, {headers: this.headers})
   }
@@ -51,11 +55,13 @@ export class EventService {
   }
 
   updateEvent(event: Event): Observable<any> {
-    const { id, nom, desc, salle, profiles, repetitions } = event
+    const { id, nom, desc, salleId, profiles, repetitions } = event
 
-    const profilesIds = profiles.map((profile) => profile.id)
-    const repetitionsIds = repetitions.map((rep) => rep.id)
-    const salleId = salle.id
+    //const profilesIds = profiles.map((profile) => profile.id)
+    //const repetitionsIds = repetitions.map((rep) => rep.id)
+    //const salleId = salle.id
+    const profilesIds = profiles;
+    const repetitionsIds = repetitions
 
     return this.http.put<any>(`${this.API}/${id}`, { nom, desc, salleId , profilesIds, repetitionsIds },
       {headers: this.headers})

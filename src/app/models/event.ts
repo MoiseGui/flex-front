@@ -1,6 +1,5 @@
-import {Profile} from './profile';
+
 import {Repetition} from './repetition';
-import {Salle} from './salle';
 
 export interface EventBase {
   id?: number;

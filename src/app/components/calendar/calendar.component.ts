@@ -5,7 +5,7 @@ import {
   TemplateRef, Inject, OnInit
 } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+
 import {
   startOfDay,
   endOfDay,
@@ -16,6 +16,7 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
+import * as events from 'events';
 import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -23,12 +24,15 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent
 } from 'angular-calendar';
+import {EventFacade} from '../../facades/event.facade';
 import {ProfileFacade} from '../../facades/profile.facade';
 import {SalleFacade} from '../../facades/salle.facade';
 import {SpecialEventFacade} from '../../facades/special-event.facade';
 import {Professeur} from '../../models/professeur';
 import {Profile} from '../../models/profile';
+import {Repetition} from '../../models/repetition';
 import {Salle} from '../../models/salle';
+import {Event, SpecialEvent} from '../../models/event';
 import {NGXToastrService} from '../../shared/toastr/toastr.service';
 import {Modal} from '../../shared/ui/modal.service';
 
@@ -57,6 +61,24 @@ const colors: any = {
 export class CalendarsComponent implements OnInit {
   @ViewChild('modalContent', {static: false}) modalContent: TemplateRef<any>;
   type_event: boolean = true;
+  event_: Event = {
+    nom: '',
+    desc: '',
+    salleId: 0,
+    profiles: [],
+    repetitions: [],
+  };
+  specialEvent: SpecialEvent = {
+    nom: '',
+    desc: '',
+    salleId: 0,
+    profiles: [],
+    date: '',
+    heureDeb: '',
+    heureFin: '',
+    activated: false
+
+  };
 
   view: string = 'week';
 
@@ -69,6 +91,19 @@ export class CalendarsComponent implements OnInit {
     event: CalendarEvent;
   };
 
+  constructor(
+    private modal: NgbModal,
+    private fb: FormBuilder,
+    private eventSFacade: SpecialEventFacade,
+    private event_facade: EventFacade,
+    private salleFacade: SalleFacade,
+    private profileFacade: ProfileFacade,
+    private toastService: NGXToastrService,
+  ) {
+    this.eventSFacade.setLoading(false);
+    this.resetState();
+  }
+
   ngOnInit() {
     this.sub_salles = this.salleFacade.getSalles$().subscribe((data) => {
       this.salles = data;
@@ -76,9 +111,31 @@ export class CalendarsComponent implements OnInit {
     this.sub_profiles = this.sub_profiles = this.profileFacade.getProfiles$().subscribe((data) => {
       this.profiles = data;
     });
+    this.event_facade.getEvents$().subscribe((events) => {
+      this.all_events = events;
+      console.log(this.all_events);
+      // {
+      //   start: subDays(endOfMonth(new Date()), 3),
+      //     end: addDays(endOfMonth(new Date()), 3),
+      //   title: 'A long event that spans 2 months',
+      //   color: colors.blue
+      // },
+      this.all_events.forEach(el => {
+        let event_calendar: CalendarEvent = {
+          start: subDays(endOfMonth(new Date()), 3),
+          end: addDays(endOfMonth(new Date()), 3),
+          title: 'A long event that spans 2 months',
+          color: colors.blue
+        };
+      });
+
+    });
   }
 
   public salles: Array<Salle>;
+  public all_events: Array<Event>;
+  public eventSpecila: Array<SpecialEvent>;
+
   public profiles: Array<Profile>;
   sub_salles: Subscription;
   sub_profiles: Subscription;
@@ -104,19 +161,6 @@ export class CalendarsComponent implements OnInit {
 
   events: CalendarEvent[] = [
     {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions
-    },
-    {
       start: subDays(endOfMonth(new Date()), 3),
       end: addDays(endOfMonth(new Date()), 3),
       title: 'A long event that spans 2 months',
@@ -137,18 +181,6 @@ export class CalendarsComponent implements OnInit {
   ];
 
   activeDayIsOpen: boolean = true;
-
-  constructor(
-    private modal: NgbModal,
-    private fb: FormBuilder,
-    private eventSFacade: SpecialEventFacade,
-    private salleFacade: SalleFacade,
-    private profileFacade: ProfileFacade,
-    private toastService: NGXToastrService,
-  ) {
-    this.eventSFacade.setLoading(false);
-    this.resetState();
-  }
 
   private resetState() {
   }
@@ -196,8 +228,6 @@ export class CalendarsComponent implements OnInit {
       },
       actions: this.actions,
     };
-    this.events.push(this.newEvent);
-
     // this.refresh.next();
     this.handleEvent('Add new event', this.newEvent);
     this.refresh.next();
@@ -205,6 +235,60 @@ export class CalendarsComponent implements OnInit {
 
   addSpecialEvent(): void {
 
+  }
+
+  confirm() {
+    if (this.type_event) {
+      console.log('event normal');
+      let event: Event = this.event_;
+      event.salleId = +this.event_.salleId;
+      let profileIds: number[] = [];
+      this.event_.profiles.forEach(el => {
+        profileIds.push(+el);
+      });
+      event.profiles = profileIds;
+      this.event_facade.addEvent(event).subscribe((res) => {
+        if (res == 'Ok') {
+          this.newEvent = {
+            title: this.event_.nom,
+            start: startOfDay(this.modalData.event.start),
+            end: endOfDay(this.modalData.event.end),
+            color: colors.blue,
+            draggable: true,
+            resizable: {
+              beforeStart: true,
+              afterEnd: true
+            },
+            actions: this.actions,
+          };
+          this.events.push(this.newEvent);
+          this.toastService.typeSuccess(`Event Added successfully`);
+          this.modal.dismissAll();
+          this.resete();
+        } else {
+          this.toastService.typeError(`${res}`);
+        }
+      });
+    } else {
+      let specilEvent: SpecialEvent = this.specialEvent;
+      specilEvent.nom = this.event_.nom;
+      specilEvent.desc = this.event_.desc;
+      specilEvent.profiles = this.event_.profiles;
+      specilEvent.salleId = this.event_.salleId;
+      console.log(specilEvent);
+      console.log(specilEvent);
+    }
+  }
+
+  resete() {
+    this.event_ = new class implements Event {
+      desc: string;
+      id: number;
+      nom: string;
+      profiles: number[];
+      repetitions: [];
+      salleId: number;
+    };
   }
 }
 

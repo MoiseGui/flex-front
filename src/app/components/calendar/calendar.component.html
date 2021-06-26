@@ -15,46 +15,46 @@
       </button>
     </div>
     <div class="modal-body">
-      <form action="#" class="form form-horizontal">
+      <form class="form form-horizontal">
         <div class="form-body">
           <div class="form-group">
             <label>Event Title:</label>
-            <input type="text" name="event-title" class="form-control" [(ngModel)]="modalData?.event.title"
-                   (keyup)="refresh.next()">
+            <input type="text" [(ngModel)]="event_.nom" name="nom" class="form-control"
+            >
           </div>
           <div class="form-group">
             <label>Description :</label>
-            <textarea type="text" name="event-desc" class="form-control" [(ngModel)]="modalData?.event.desc"
-                      (keyup)="refresh.next()"></textarea>
+            <textarea type="text" [(ngModel)]="event_.desc" name="desc" class="form-control"
+            ></textarea>
           </div>
           <div class="form-group">
-            <select class="form-control" type="text" required>
+            <select [(ngModel)]="event_.salleId" name="salleId" class="form-control" required>
               <option value="">Choose Room</option>
               <option *ngFor="let s of salles" value="{{s.id}}">{{s.nom}}</option>
             </select>
           </div>
           <div class="form-group">
-            <select class="form-control" type="text" required multiple>
+            <select [(ngModel)]="event_.profiles" name="profiles" class="form-control" type="text" required multiple>
               <option value="">Choose Profile</option>
               <option *ngFor="let profile of profiles" value="{{profile.id}}">{{profile.libelle}}</option>
             </select>
           </div>
           <div class="form-group">
-            <mat-checkbox checked="true" type="text" [(ngModel)]="type_event" name="event-title"></mat-checkbox>
+            <mat-checkbox [(ngModel)]="type_event" checked="true" type="text" name="type_event"></mat-checkbox>
             <label> Avec Reptiotion </label>
           </div>
           <div class="event-special" *ngIf="!type_event">
             <div class="form-group">
-              <select class="form-control" type="text" required>
-                <option value="">Choose Room</option>
-                <option *ngFor="let s of salles" value="{{s.id}}">{{s.nom}}</option>
-              </select>
+              <label>Date :</label>
+              <input [(ngModel)]="specialEvent.date" name="date" type="date" class="form-control" required>
             </div>
             <div class="form-group">
-              <select class="form-control" type="text" required multiple>
-                <option value="">Choose Profile</option>
-                <option *ngFor="let profile of profiles" value="{{profile.id}}">{{profile.libelle}}</option>
-              </select>
+              <label>Heure Debut :</label>
+              <input [(ngModel)]="specialEvent.heureDeb" name="heureDeb" type="time" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Heure Fin :</label>
+              <input type="time" [(ngModel)]="specialEvent.heureFin" name="heureFin" class="form-control" required>
             </div>
             <div class="form-group">
               <div class="setting-container">
@@ -63,23 +63,23 @@
               </div>
             </div>
           </div>
-<!--          <div class="row">-->
-<!--            <div class="col-md-6 col-12">-->
-<!--              <div class="form-group">-->
-<!--                <label>Primary Color:</label>-->
-<!--                <input type="color" name="primary-color" [(ngModel)]="modalData?.event.color.primary"-->
-<!--                       (change)="refresh.next()">-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="col-md-6 col-12">-->
-<!--              <div class="form-group">-->
-<!--                <label>Secondary Color:</label>-->
-<!--                <input type="color" name="secondary-color" [(ngModel)]="modalData?.event.color.secondary"-->
-<!--                       (change)="refresh.next()">-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-          <div class="row">
+          <!--          <div class="row">-->
+          <!--            <div class="col-md-6 col-12">-->
+          <!--              <div class="form-group">-->
+          <!--                <label>Primary Color:</label>-->
+          <!--                <input type="color" name="primary-color" [(ngModel)]="modalData?.event.color.primary"-->
+          <!--                       (change)="refresh.next()">-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="col-md-6 col-12">-->
+          <!--              <div class="form-group">-->
+          <!--                <label>Secondary Color:</label>-->
+          <!--                <input type="color" name="secondary-color" [(ngModel)]="modalData?.event.color.secondary"-->
+          <!--                       (change)="refresh.next()">-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <div *ngIf="type_event" class="row">
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label>Starts At:</label>
@@ -101,7 +101,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+      <button type="submit" class="btn btn-outline-secondary" (click)="confirm()">OK</button>
     </div>
   </ng-template>
 

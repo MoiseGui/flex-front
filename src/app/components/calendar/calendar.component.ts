@@ -118,9 +118,9 @@ export class CalendarsComponent implements OnInit {
       this.profiles = data;
     });
     // handle event into calander
-    this.event_facade.getEvents$().subscribe((events) => {
-      if (events) {
-        this.all_events = events;
+    this.event_facade.getEvents$().subscribe((evs) => {
+      if (evs) {
+        this.all_events = evs;
         this.all_events.forEach(el => {
           console.log(el);
           if (el.repetitions[0]) {
@@ -155,33 +155,16 @@ export class CalendarsComponent implements OnInit {
       if (this.event_special) {
         console.log('Special events :', this.event_special);
         this.event_special.forEach(el => {
-          let date = new Date(el.date);
-          let hours_fin: number = +el.heureDeb.split(':')[0];
-          let minute_fin: number = +el.heureDeb.split(':')[1];
-          let new_start_date = new Date(date.setHours(hours_fin)).setMinutes(minute_fin);
-          let date_ = new Date();
-          date_.setDate(new_start_date);
-          console.log(new_start_date);
+          let dateDeb = new Date(el.date+"T"+el.heureDeb);
+          let dateFin = new Date(el.date+"T"+el.heureFin);
           let event_calendar: CalendarEvent = {
-            start: addHours(startOfDay(new Date(el.date)), 0),
-            end: new Date(el.date),
+            start: dateDeb,
+            end: dateFin,
             title: el.nom,
             color: colors.blue
           };
           this.events.push(event_calendar);
         });
-        // {
-        //   start: addHours(startOfDay(new Date()), 2),
-        //     end: new Date(),
-        //   title: 'A draggable and resizable event',
-        //   color: colors.yellow,
-        //   actions: this.actions,
-        //   resizable: {
-        //   beforeStart: true,
-        //     afterEnd: true
-        // },
-        //   draggable: true
-        // }
       }
     });
 

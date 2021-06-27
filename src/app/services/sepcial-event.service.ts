@@ -26,7 +26,6 @@ export class SepcialEventService {
   }
 
   createEvent(event: SpecialEvent): Observable<any> {
-    console.log(event);
     const {nom, desc, salleId, profiles, date, heureDeb, heureFin, activated} = event;
     const profileIds = profiles;
 

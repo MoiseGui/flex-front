@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {Observable} from 'rxjs';
+import swal from 'sweetalert2';
 import {PerdiodFacade} from '../../facades/perdiod.facade';
 import {ProfesseurFacade} from '../../facades/professeur.facade';
 import {Etudiant} from '../../models/etudiant';
@@ -67,7 +68,24 @@ export class PeriodeComponent implements OnInit {
 
   }
 
-  removePeriod(id: any) {
-    console.log(id);
+  removePeriod(id: number) {
+    this.confirmDelete(id);
+  }
+
+  confirmDelete(id: number) {
+    swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      // If confirmed
+      if (result.value) {
+        this.periodFacade.deletePeriode(id);
+      }
+    });
   }
 }

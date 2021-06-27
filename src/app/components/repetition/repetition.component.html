@@ -28,7 +28,12 @@
               </ngx-datatable-column>
               <ngx-datatable-column name="Jour" prop="jour">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  {{value}}
+                  {{value.nom}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="event" prop="event">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  {{value.nom}}
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column name="Actions" prop="id" sortable="false">

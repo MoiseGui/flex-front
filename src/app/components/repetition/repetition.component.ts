@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {Observable} from 'rxjs';
+import swal from 'sweetalert2';
 import {ProfesseurFacade} from '../../facades/professeur.facade';
 import {RepetitionFacade} from '../../facades/repetition.facade';
 import {Professeur} from '../../models/professeur';
@@ -83,7 +84,25 @@ export class RepetitionComponent implements OnInit {
     });
   }
 
-  removeRepetitionn(value: any) {
+  removeRepetitionn(id: number) {
+    console.log(id);
+    this.confirmDelete(id);
+  }
 
+  confirmDelete(id: number) {
+    swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      // If confirmed
+      if (result.value) {
+        this.repetitionFacade.deleteRepetition(id);
+      }
+    });
   }
 }

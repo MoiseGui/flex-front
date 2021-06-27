@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Repetition} from '../models/repetition';
+import {RepetitionDto} from '../models/repetitionDto';
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +31,6 @@ export class RepetitionState {
     } else {
       this.repetitions$.next([...repetitions, repetition]);
     }
-
   }
 
   removeRepetition(id: number) {

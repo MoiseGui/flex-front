@@ -19,50 +19,47 @@
         <div class="form-body">
           <div class="form-group">
             <label>Event Title:</label>
-            <input type="text" [(ngModel)]="event_.nom" name="nom" class="form-control"
+            <input required type="text" [(ngModel)]="event_.nom" name="nom" class="form-control"
             >
           </div>
           <div class="form-group">
             <label>Description :</label>
-            <textarea type="text" [(ngModel)]="event_.desc" name="desc" class="form-control"
+            <textarea required type="text" [(ngModel)]="event_.desc" name="desc" class="form-control"
             ></textarea>
           </div>
           <div class="form-group">
-            <select [(ngModel)]="event_.salleId" name="salleId" class="form-control" required>
-              <option value="">Choose Room</option>
+            <label for="salleId">Salle</label>
+            <select [(ngModel)]="event_.salleId" id="salleId" name="salleId" class="form-control" required>
               <option *ngFor="let s of salles" value="{{s.id}}">{{s.nom}}</option>
             </select>
           </div>
           <div class="form-group">
-            <select [(ngModel)]="event_.profiles" name="profiles" class="form-control" type="text" required multiple>
+            <label for="profiles">Profiles</label>
+            <select [(ngModel)]="event_.profiles" name="profiles" id="profiles" class="form-control"
+                    type="text"
+                    required multiple>
               <option value="">Choose Profile</option>
               <option *ngFor="let profile of profiles" value="{{profile.id}}">{{profile.libelle}}</option>
             </select>
           </div>
           <div class="form-group">
             <mat-checkbox [(ngModel)]="type_event" checked="true" type="text" name="type_event"></mat-checkbox>
-            <label> Avec Reptiotion </label>
+            <label class="ml-2"> Avec Reptiotion </label>
           </div>
-          <div class="event-special" *ngIf="!type_event">
-            <div class="form-group">
-              <label>Date :</label>
-              <input [(ngModel)]="specialEvent.date" name="date" type="date" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label>Heure Debut :</label>
-              <input [(ngModel)]="specialEvent.heureDeb" name="heureDeb" type="time" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label>Heure Fin :</label>
-              <input type="time" [(ngModel)]="specialEvent.heureFin" name="heureFin" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <div class="setting-container">
-                <mat-slide-toggle id="activated">Activated</mat-slide-toggle>
-                <p>Define if the event is an activated</p>
-              </div>
-            </div>
-          </div>
+          <!--          <div class="event-special" *ngIf="!type_event">-->
+          <!--            <div class="form-group">-->
+          <!--              <label>Date :</label>-->
+          <!--              <input [(ngModel)]="specialEvent.date" name="date" type="date" class="form-control" required>-->
+          <!--            </div>-->
+          <!--            <div class="form-group">-->
+          <!--              <label>Heure Debut :</label>-->
+          <!--              <input [(ngModel)]="specialEvent.heureDeb" name="heureDeb" type="time" class="form-control" required>-->
+          <!--            </div>-->
+          <!--            <div class="form-group">-->
+          <!--              <label>Heure Fin :</label>-->
+          <!--              <input type="time" [(ngModel)]="specialEvent.heureFin" name="heureFin" class="form-control" required>-->
+          <!--            </div>-->
+          <!--          </div>-->
           <!--          <div class="row">-->
           <!--            <div class="col-md-6 col-12">-->
           <!--              <div class="form-group">-->
@@ -79,21 +76,28 @@
           <!--              </div>-->
           <!--            </div>-->
           <!--          </div>-->
-          <div *ngIf="type_event" class="row">
+          <div *ngIf="!type_event" class="row">
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label>Starts At:</label>
-                <mwl-demo-utils-date-time-picker name="starts-at" [(ngModel)]="modalData?.event.start"
-                                                 (ngModelChange)="refresh.next()" placeholder="Not set">
+                <mwl-demo-utils-date-time-picker name="date_event_spec_start" [(ngModel)]="date_event_spec_start"
+                                                 placeholder="Not set">
                 </mwl-demo-utils-date-time-picker>
               </div>
             </div>
             <div class="col-md-6 col-12">
               <div class="form-group">
                 <label>Ends At:</label>
-                <mwl-demo-utils-date-time-picker name="ends-at" [(ngModel)]="modalData?.event.end"
-                                                 (ngModelChange)="refresh.next()" placeholder="Not set">
+                <mwl-demo-utils-date-time-picker name="date_event_spec_end" [(ngModel)]="date_event_spec_end"
+                                                 placeholder="Not set">
                 </mwl-demo-utils-date-time-picker>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="setting-container">
+                <mat-slide-toggle [(ngModel)]="specialEvent.activated" name="activated" id="activated">Activated
+                </mat-slide-toggle>
+                <p>Define if the event is an activated</p>
               </div>
             </div>
           </div>

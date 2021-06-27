@@ -32,6 +32,10 @@ export class RepetitionService {
     return this.http.get<Repetition[]>(`${this.API}/`, {headers: this.headers});
   }
 
+  findById(id: number): Observable<Repetition> {
+    return this.http.get<Repetition>(`${this.API}/${id}`, {headers: this.headers});
+  }
+
   create(repetition: Repetition): Observable<any> {
     // jour === jourOrder !!!!!!!!!!!!!!!!!!!!!!!!
     const {event, jour, creneau, periode} = repetition;

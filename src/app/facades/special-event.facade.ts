@@ -31,7 +31,6 @@ export class SpecialEventFacade {
     return this.specialEventState.getSpecialEvents$();
   }
 
-  // @ts-ignore
   addEvent(event: SpecialEvent): Observable<string> {
     let message = new Subject<string>();
     // calling http service to add an event
@@ -54,7 +53,7 @@ export class SpecialEventFacade {
         message.next(this.handleError(error));
       }
     );
-
+    return message;
   }
 
   updateEvent(event: SpecialEvent) {

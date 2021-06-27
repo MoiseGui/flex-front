@@ -33,8 +33,11 @@ import {Profile} from '../../models/profile';
 import {Repetition} from '../../models/repetition';
 import {Salle} from '../../models/salle';
 import {Event, SpecialEvent} from '../../models/event';
+import {RepetitionService} from '../../services/repetition.service';
 import {NGXToastrService} from '../../shared/toastr/toastr.service';
 import {Modal} from '../../shared/ui/modal.service';
+import {format} from 'date-fns';
+import * as moment from 'moment';
 
 const colors: any = {
   red: {
@@ -77,8 +80,10 @@ export class CalendarsComponent implements OnInit {
     heureDeb: '',
     heureFin: '',
     activated: false
-
   };
+  date_event_spec_start: Date = new Date();
+
+  date_event_spec_end: Date = new Date();
 
   view: string = 'week';
 
@@ -96,6 +101,7 @@ export class CalendarsComponent implements OnInit {
     private fb: FormBuilder,
     private eventSFacade: SpecialEventFacade,
     private event_facade: EventFacade,
+    private repService: RepetitionService,
     private salleFacade: SalleFacade,
     private profileFacade: ProfileFacade,
     private toastService: NGXToastrService,
@@ -111,25 +117,74 @@ export class CalendarsComponent implements OnInit {
     this.sub_profiles = this.sub_profiles = this.profileFacade.getProfiles$().subscribe((data) => {
       this.profiles = data;
     });
+    // handle event into calander
     this.event_facade.getEvents$().subscribe((events) => {
-      this.all_events = events;
-      console.log(this.all_events);
+      if (events) {
+        this.all_events = events;
+        this.all_events.forEach(el => {
+          console.log(el);
+          if (el.repetitions[0]) {
+            const id_rep: number = el.repetitions[0].id;
+            if (id_rep) {
+              this.repService.findById(id_rep).subscribe((rep) => {
+                console.log('repetition', rep);
+                let event_calendar: CalendarEvent = {
+                  start: subDays(endOfMonth(rep.periode.dateDeb), 3),
+                  end: addDays(endOfMonth(rep.periode.dateFin), 3),
+                  title: rep.event.nom,
+                  color: colors.blue
+                };
+                this.events.push(event_calendar);
+              });
+            }
+          }
+        });
+      }
+
       // {
       //   start: subDays(endOfMonth(new Date()), 3),
       //     end: addDays(endOfMonth(new Date()), 3),
       //   title: 'A long event that spans 2 months',
       //   color: colors.blue
       // },
-      this.all_events.forEach(el => {
-        let event_calendar: CalendarEvent = {
-          start: subDays(endOfMonth(new Date()), 3),
-          end: addDays(endOfMonth(new Date()), 3),
-          title: 'A long event that spans 2 months',
-          color: colors.blue
-        };
-      });
 
     });
+    //  handle Special event  into calander
+    this.eventSFacade.getEvents$().subscribe((eventSpecial) => {
+      this.event_special = eventSpecial;
+      if (this.event_special) {
+        console.log('Special events :', this.event_special);
+        this.event_special.forEach(el => {
+          let date = new Date(el.date);
+          let hours_fin: number = +el.heureDeb.split(':')[0];
+          let minute_fin: number = +el.heureDeb.split(':')[1];
+          let new_start_date = new Date(date.setHours(hours_fin)).setMinutes(minute_fin);
+          let date_ = new Date();
+          date_.setDate(new_start_date);
+          console.log(new_start_date);
+          let event_calendar: CalendarEvent = {
+            start: addHours(startOfDay(new Date(el.date)), 0),
+            end: new Date(el.date),
+            title: el.nom,
+            color: colors.blue
+          };
+          this.events.push(event_calendar);
+        });
+        // {
+        //   start: addHours(startOfDay(new Date()), 2),
+        //     end: new Date(),
+        //   title: 'A draggable and resizable event',
+        //   color: colors.yellow,
+        //   actions: this.actions,
+        //   resizable: {
+        //   beforeStart: true,
+        //     afterEnd: true
+        // },
+        //   draggable: true
+        // }
+      }
+    });
+
   }
 
   public salles: Array<Salle>;
@@ -137,6 +192,7 @@ export class CalendarsComponent implements OnInit {
   public eventSpecila: Array<SpecialEvent>;
 
   public profiles: Array<Profile>;
+  public event_special: Array<SpecialEvent>;
   sub_salles: Subscription;
   sub_profiles: Subscription;
   public errors$ = new BehaviorSubject<Partial<Professeur>>({});
@@ -159,26 +215,21 @@ export class CalendarsComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
-  ];
+  events: CalendarEvent[] = [];
+  // events: CalendarEvent[] = [
+  //   {
+  //     start: addHours(startOfDay(new Date()), 2),
+  //     end: new Date(),
+  //     title: 'A draggable and resizable event',
+  //     color: colors.yellow,
+  //     actions: this.actions,
+  //     resizable: {
+  //       beforeStart: true,
+  //       afterEnd: true
+  //     },
+  //     draggable: true
+  //   }
+  // ];
 
   activeDayIsOpen: boolean = true;
 
@@ -216,27 +267,11 @@ export class CalendarsComponent implements OnInit {
   }
 
   addEvent(): void {
-    this.newEvent = {
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      actions: this.actions,
-    };
-    // this.refresh.next();
     this.handleEvent('Add new event', this.newEvent);
     this.refresh.next();
   }
 
-  addSpecialEvent(): void {
-
-  }
-
+  // submit form add event
   confirm() {
     if (this.type_event) {
       console.log('event normal');
@@ -249,11 +284,47 @@ export class CalendarsComponent implements OnInit {
       event.profiles = profileIds;
       this.event_facade.addEvent(event).subscribe((res) => {
         if (res == 'Ok') {
+          // this.newEvent = {
+          //   title: this.event_.nom,
+          //   start: startOfDay(this.date_event_spec_start),
+          //   end: endOfDay(this.date_event_spec_start),
+          //   color: colors.blue,
+          //   draggable: true,
+          //   resizable: {
+          //     beforeStart: true,
+          //     afterEnd: true
+          //   },
+          //   actions: this.actions,
+          // };
+          // this.events.push(this.newEvent);
+          this.toastService.typeSuccess(`Event Added successfully`);
+          this.modal.dismissAll();
+          this.resete();
+        } else {
+          this.toastService.typeError(`${res}`);
+        }
+      });
+    } else {
+      this.specialEvent.nom = this.event_.nom;
+      this.specialEvent.desc = this.event_.desc;
+      let profileIds: number[] = [];
+      this.event_.profiles.forEach(el => {
+        profileIds.push(+el);
+      });
+      //TRANSFORM DATE to "year-moi-day"
+      this.specialEvent.date = moment(this.date_event_spec_start).format('YYYY-MM-DD');
+      this.specialEvent.profiles = profileIds;
+      this.specialEvent.salleId = +this.event_.salleId;
+      this.specialEvent.heureDeb = this.date_event_spec_start.getHours() + ':' + this.date_event_spec_start.getMinutes();
+      this.specialEvent.heureFin = this.date_event_spec_end.getHours() + ':' + this.date_event_spec_end.getMinutes();
+      console.log(this.specialEvent);
+      this.eventSFacade.addEvent(this.specialEvent).subscribe((res) => {
+        if (res == 'Ok') {
           this.newEvent = {
             title: this.event_.nom,
-            start: startOfDay(this.modalData.event.start),
-            end: endOfDay(this.modalData.event.end),
-            color: colors.blue,
+            start: addHours(startOfDay(this.date_event_spec_start), 2),
+            end: this.date_event_spec_end,
+            color: colors.red.primary,
             draggable: true,
             resizable: {
               beforeStart: true,
@@ -266,17 +337,9 @@ export class CalendarsComponent implements OnInit {
           this.modal.dismissAll();
           this.resete();
         } else {
-          this.toastService.typeError(`${res}`);
+          this.toastService.typeError(res);
         }
       });
-    } else {
-      let specilEvent: SpecialEvent = this.specialEvent;
-      specilEvent.nom = this.event_.nom;
-      specilEvent.desc = this.event_.desc;
-      specilEvent.profiles = this.event_.profiles;
-      specilEvent.salleId = this.event_.salleId;
-      console.log(specilEvent);
-      console.log(specilEvent);
     }
   }
 
@@ -287,6 +350,17 @@ export class CalendarsComponent implements OnInit {
       nom: string;
       profiles: number[];
       repetitions: [];
+      salleId: number;
+    };
+    this.specialEvent = new class implements SpecialEvent {
+      activated: boolean;
+      date: string;
+      desc: string;
+      heureDeb: string;
+      heureFin: string;
+      id: number;
+      nom: string;
+      profiles: number[];
       salleId: number;
     };
   }

@@ -96,6 +96,7 @@ export class AddNewRepetitionComponent implements OnInit {
     rep.eventId = +rep.eventId;
     rep.jourOrder = +rep.jourOrder;
     rep.creaneauOrder = +rep.creaneauOrder;
+    console.log(rep);
     this.repetitionFacade.addRepetition(rep).subscribe((res) => {
       if (res == 'Ok') {
         if (this.data.repetition) {

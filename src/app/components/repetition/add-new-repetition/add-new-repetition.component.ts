@@ -42,7 +42,7 @@ export class AddNewRepetitionComponent implements OnInit {
   public all_crenaux: Array<Creneau>;
   public periode: Array<Periode>;
   public jours: Array<Jour>;
-  public errors$ = new BehaviorSubject<Partial<Professeur>>({});
+  public errors$ = new BehaviorSubject<Partial<Repetition>>({});
 
   constructor(
     private modal: Modal,
@@ -59,6 +59,11 @@ export class AddNewRepetitionComponent implements OnInit {
     this.repetitionFacade.setLoading(false);
     this.resetState();
   }
+
+  event_selected: Event;
+  period_selected: Periode;
+  crenaux_selected: Creneau;
+  jour: Jour;
 
   ngOnInit() {
     this.resetState();
@@ -77,6 +82,13 @@ export class AddNewRepetitionComponent implements OnInit {
     this.jourService.findAll().subscribe((jours) => {
       this.jours = jours;
     });
+    if (this.data.repetition) {
+      this.event_selected = this.data.repetition.event;
+      this.period_selected = this.data.repetition.periode;
+      this.crenaux_selected = this.data.repetition.creneau;
+      // this.jour = this.data.repetition.jour;
+    }
+    console.log(this.data.repetition);
 
   }
 
@@ -92,22 +104,36 @@ export class AddNewRepetitionComponent implements OnInit {
 
   public confirm() {
     let rep: RepetitionDto = this.form.value;
-    rep.periodeId = +rep.periodeId;
-    rep.eventId = +rep.eventId;
-    rep.jourOrder = +rep.jourOrder;
-    rep.creaneauOrder = +rep.creaneauOrder;
-    console.log(rep);
-    this.repetitionFacade.addRepetition(rep).subscribe((res) => {
-      if (res == 'Ok') {
-        if (this.data.repetition) {
-          this.toastService.typeSuccess(`Repetition updated successfully`);
+    if (!this.data.repetition) {
+      const event: Event = {
+        desc: '', nom: '', profiles: [], repetitions: [], salleId: 0,
+        id: +rep.eventId
+      };
+      const crenaux: Creneau = {
+        heureDeb: '', heureFin: '', id: +rep.creaneauOrder, ordre: +rep.creaneauOrder
+      };
+      const period: Periode = {
+        dateDeb: '', dateFin: '', id: +rep.periodeId, libelle: ''
+      };
+      let repetition: Repetition =
+        {
+          creneau: crenaux, event: event, jour: +rep.jourOrder, periode: period
+        };
+      this.repetitionFacade.addRepetition(repetition).subscribe((res) => {
+        if (res == 'Ok') {
+          if (this.data.repetition) {
+            this.toastService.typeSuccess(`Repetition updated successfully`);
+          } else {
+            this.toastService.typeSuccess(`Repetition added successfully`);
+          }
+          this.close(res);
         } else {
-          this.toastService.typeSuccess(`Repetition added successfully`);
+          this.toastService.typeError(res);
         }
-        this.close(res);
-      } else {
-        this.toastService.typeError(res);
-      }
-    });
+      });
+    } else {
+
+    }
+
   }
 }

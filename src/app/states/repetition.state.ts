@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
+import {Professeur} from '../models/professeur';
 import {Repetition} from '../models/repetition';
 import {RepetitionDto} from '../models/repetitionDto';
 
@@ -27,16 +28,16 @@ export class RepetitionState {
   addRepetition(repetition: Repetition) {
     const repetitions = this.repetitions$.getValue();
     if (repetition == null) {
-      this.repetitions$.next([...repetitions]);
+      this.repetitions$.next(new Array(repetition));
     } else {
       this.repetitions$.next([...repetitions, repetition]);
     }
   }
 
   removeRepetition(id: number) {
-    const repetition = this.repetitions$.getValue();
-    repetition.filter(rep => rep.id != id);
-    this.repetitions$.next(repetition);
+    let repetitions = this.repetitions$.getValue();
+    repetitions = repetitions.filter(rep => rep.id != id);
+    this.repetitions$.next(repetitions);
   }
 
   isLoading$() {

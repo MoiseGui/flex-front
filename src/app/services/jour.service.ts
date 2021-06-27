@@ -30,4 +30,8 @@ export class JourService {
   findAll(): Observable<Jour[]> {
     return this.http.get<Jour[]>(`${this.API}/`, {headers: this.headers});
   }
+
+  findById(id: number): Observable<Jour> {
+    return this.http.get<Jour>(`${this.API}/${id}`, {headers: this.headers});
+  }
 }

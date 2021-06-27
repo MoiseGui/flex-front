@@ -28,13 +28,18 @@ export class RepetitionFacade {
     return this.repetitionState.getRepetitions$();
   }
 
-  addRepetition(repetition: RepetitionDto): Observable<string> {
+  addRepetition(repetition: Repetition): Observable<string> {
     let message = new Subject<string>();
-
-    this.repetitionService.create2(repetition).subscribe(
+    const repetitionDto = {
+      'eventId': repetition.event.id,
+      'periodeId': repetition.periode.id,
+      'jourOrder': repetition.jour,
+      'creaneauOrder': repetition.creneau.id
+    };
+    this.repetitionService.create(repetitionDto).subscribe(
       response => {
         if (response.id) {
-          // this.repetitionState.addRepetition(repetition);
+          this.repetitionState.addRepetition(response);
           message.next('Ok');
         } else {
           message.next(response.message);
@@ -53,7 +58,7 @@ export class RepetitionFacade {
       response => {
         if (response.nom) {
           this.toastService.typeSuccess(`Repetition ${response.nom} deleted successfully`);
-          this.repetitionService.delete(id);
+          this.repetitionState.removeRepetition(id);
         } else {
           this.toastService.typeError(response.message);
         }

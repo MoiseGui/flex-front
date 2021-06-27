@@ -100,7 +100,6 @@ export class EventFacade {
   }
 
   deleteEvent(id: number) {
-
     this.eventService.delete(id).subscribe(
       response => {
         if (response.nom) {
@@ -112,6 +111,19 @@ export class EventFacade {
       }
     );
   }
+
+  // findById(id: number) {
+  //   this.eventService.delete(id).subscribe(
+  //     response => {
+  //       if (response.nom) {
+  //         this.toastService.typeSuccess(`Event ${response.nom} deleted successfully`);
+  //         this.eventState.deleteEvent(id);
+  //       } else {
+  //         this.toastService.typeError(response.message);
+  //       }
+  //     }
+  //   );
+  // }
 
   handleError(error: any): string {
     let text = '';

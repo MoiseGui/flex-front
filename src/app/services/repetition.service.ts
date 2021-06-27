@@ -36,16 +36,17 @@ export class RepetitionService {
     return this.http.get<Repetition>(`${this.API}/${id}`, {headers: this.headers});
   }
 
-  create(repetition: Repetition): Observable<any> {
+  create(repetition: RepetitionDto): Observable<any> {
     // jour === jourOrder !!!!!!!!!!!!!!!!!!!!!!!!
-    const {event, jour, creneau, periode} = repetition;
-
-    const eventId = event.id;
-    const periodeId = periode.id;
-    const creneauOrder = creneau.ordre;
+    const {eventId, jourOrder, creaneauOrder, periodeId} = repetition;
+    // const eventId = event.id;
+    // const periodeId = periode.id;
+    // const creaneauOrder = creneau.id;
+    // const jourOrder = jour;
+    console.log(eventId, periodeId, creaneauOrder, jourOrder);
 
     return this.http.post<Repetition>(`${this.API}/`, {
-      eventId, periodeId, jour, creneauOrder
+      eventId, periodeId, jourOrder, creaneauOrder
     }, {headers: this.headers});
   }
 

@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { LocalDataSource } from 'ng2-smart-table';
-import { Observable } from 'rxjs';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {LocalDataSource} from 'ng2-smart-table';
+import {Observable} from 'rxjs';
 import swal from 'sweetalert2';
-import { ProfesseurFacade } from '../../facades/professeur.facade';
-import { Professeur } from '../../models/professeur';
+import {ProfesseurFacade} from '../../facades/professeur.facade';
+import {Professeur} from '../../models/professeur';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
-import { Modal } from '../../shared/ui/modal.service';
-import { CrupdateProfesseurModalComponent } from './crupdate-professeur-modal/crupdate-professeur-modal.component';
+import {Modal} from '../../shared/ui/modal.service';
+import {CrupdateProfesseurModalComponent} from './crupdate-professeur-modal/crupdate-professeur-modal.component';
 
 @Component({
   selector: 'app-professeur',
@@ -17,7 +17,7 @@ import { CrupdateProfesseurModalComponent } from './crupdate-professeur-modal/cr
 })
 export class ProfesseurComponent implements OnInit {
 
-  public title: String = "";
+  public title: String = '';
 
   professeurs$: Observable<Professeur[]>;
 
@@ -29,7 +29,7 @@ export class ProfesseurComponent implements OnInit {
   // sera utilisé pour la recherche
   temp = [];
 
-  @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
+  @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,7 +48,7 @@ export class ProfesseurComponent implements OnInit {
     this.professeurs$ = this.professeurFacade.getProfesseurs$();
 
     // Fill the rows with the rooms
-    this.professeurs$.subscribe(profs => {
+    this.professeurs$.subscribe((profs) => {
       this.rows = profs;
       this.temp = profs;
       // console.log("Les données",this.rows);
@@ -57,11 +57,11 @@ export class ProfesseurComponent implements OnInit {
     // whenever there is an error
     this.professeurFacade.getError$().subscribe(message => {
       // "" means there is no error
-      if (message != "") {
+      if (message != '') {
         // alert(message);
         this.alertErrorMessage(message);
         // seet no error after handling the error
-        this.professeurFacade.setError("");
+        this.professeurFacade.setError('');
       }
     });
   }
@@ -72,12 +72,13 @@ export class ProfesseurComponent implements OnInit {
   }
 
   showCrupdateProfessor(professeur?: Professeur) {
-    this.modal.show(CrupdateProfesseurModalComponent, { professeur }).afterClosed().subscribe(data => {
-      if (!data) return;
+    this.modal.show(CrupdateProfesseurModalComponent, {professeur}).afterClosed().subscribe(data => {
+      if (!data) {
+        return;
+      }
       // this.refreshCompany();
     });
   }
-
 
   removeProfesseur(id: number) {
     this.confirmDelete(id);
@@ -88,7 +89,7 @@ export class ProfesseurComponent implements OnInit {
     const val = event.target.value.toLowerCase();
 
     // filter our data
-    const temp = this.temp.filter(function (d) {
+    const temp = this.temp.filter(function(d) {
       return d.nom.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
@@ -102,7 +103,7 @@ export class ProfesseurComponent implements OnInit {
   confirmDelete(id: number) {
     swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: 'You won\'t be able to revert this!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -113,12 +114,12 @@ export class ProfesseurComponent implements OnInit {
       if (result.value) {
         this.professeurFacade.removeProfesseur(id);
       }
-    })
+    });
   }
 
   // used to sure Yes for True and No for False
   yesOrNo(value): string {
-    return value == true ? "Yes" : "No";
+    return value == true ? 'Yes' : "No";
   }
 
 }

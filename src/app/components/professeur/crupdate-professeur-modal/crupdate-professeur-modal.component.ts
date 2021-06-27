@@ -66,7 +66,6 @@ export class CrupdateProfesseurModalComponent implements OnInit {
     } else {
       request = this.professeurFacade.addProfesseur(this.form.value);
     }
-
     request
       .pipe(finalize(() => this.professeurFacade.setLoading(false)))
       .subscribe(response => {

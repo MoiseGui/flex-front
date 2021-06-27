@@ -42,17 +42,17 @@ export class RepetitionComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.title = data.title;
     });
-
   }
+
+  event: Event = null;
 
   ngOnInit(): void {
     this.repetition$ = this.repetitionFacade.getRepetitions();
-
     // Fill the rows with the rooms
     this.repetition$.subscribe((repet) => {
       this.rows = repet;
       this.temp = repet;
-      // console.log("Les données",this.rows);
+      console.log(this.rows);
     });
 
     // whenever there is an error

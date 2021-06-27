@@ -3,8 +3,12 @@ import {ActivatedRoute} from '@angular/router';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {Observable} from 'rxjs';
 import {ProfesseurFacade} from '../../facades/professeur.facade';
+import {RepetitionFacade} from '../../facades/repetition.facade';
 import {Professeur} from '../../models/professeur';
+import {Repetition} from '../../models/repetition';
 import {Modal} from '../../shared/ui/modal.service';
+import {CrupdateProfesseurModalComponent} from '../professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
+import {AddNewRepetitionComponent} from './add-new-repetition/add-new-repetition.component';
 
 @Component({
   selector: 'app-repetition',
@@ -15,7 +19,7 @@ export class RepetitionComponent implements OnInit {
 
   public title: String = '';
 
-  professeurs$: Observable<Professeur[]>;
+  repetition$: Observable<Repetition[]>;
 
   editing = {};
 
@@ -29,7 +33,7 @@ export class RepetitionComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private professeurFacade: ProfesseurFacade,
+    private repetitionFacade: RepetitionFacade,
     private modal: Modal,
   ) {
 
@@ -41,23 +45,23 @@ export class RepetitionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.professeurs$ = this.professeurFacade.getProfesseurs$();
+    this.repetition$ = this.repetitionFacade.getRepetitions();
 
     // Fill the rows with the rooms
-    this.professeurs$.subscribe(profs => {
-      this.rows = profs;
-      this.temp = profs;
+    this.repetition$.subscribe((repet) => {
+      this.rows = repet;
+      this.temp = repet;
       // console.log("Les données",this.rows);
     });
 
     // whenever there is an error
-    this.professeurFacade.getError$().subscribe(message => {
+    this.repetitionFacade.getError$().subscribe(message => {
       // "" means there is no error
       if (message != '') {
         // alert(message);
         // this.alertErrorMessage(message);
         // seet no error after handling the error
-        this.professeurFacade.setError('');
+        this.repetitionFacade.setError('');
       }
     });
   }
@@ -70,8 +74,13 @@ export class RepetitionComponent implements OnInit {
 
   }
 
-  showCrupdateRep(row: any) {
-
+  showCrupdateRep(repetition?: Repetition) {
+    this.modal.show(AddNewRepetitionComponent, {repetition}).afterClosed().subscribe(data => {
+      if (!data) {
+        return;
+      }
+      // this.refreshCompany();
+    });
   }
 
   removeRepetitionn(value: any) {

@@ -27,11 +27,10 @@ export class EventService {
   }
 
   createEvent(event: Event): Observable<any> {
-
     const {nom, desc, salleId, profiles, repetitions} = event;
     const profileIds = profiles;
     // const repetitionIds = repetitions.map((rep) => rep.id);
-    const repetitionIds = [];
+    const repetitionIds = repetitions;
     return this.http.post(`${this.API}/`, {nom, desc, salleId, profileIds, repetitionIds}, {headers: this.headers});
   }
 
@@ -55,8 +54,7 @@ export class EventService {
     const {nom, desc, salleId, profiles, repetitions} = event;
     const profileIds = profiles;
     // const repetitionIds = repetitions.map((rep) => rep.id);
-    const repetitionIds = [];
-
+    const repetitionIds = repetitions;
     return this.http.put<any>(`${this.API}/${event.id}`, {nom, desc, salleId, profileIds, repetitionIds},
       {headers: this.headers});
   }

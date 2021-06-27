@@ -29,6 +29,7 @@ import {
 import {LoginPageComponent} from './components/login/login-page.component';
 import {CrupdateProfesseurModalComponent} from './components/professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
 import {ProfileDetailComponent} from './components/profile/profile-detail/profile-detail.component';
+import {AddNewRepetitionComponent} from './components/repetition/add-new-repetition/add-new-repetition.component';
 
 import {AuthService} from './shared/auth/auth.service';
 import {AuthGuard} from './shared/auth/auth-guard.service';
@@ -84,7 +85,8 @@ export function createTranslateLoader(http: HttpClient) {
     CrupdateProfileModalComponent,
     ProfileDetailComponent,
     CrupdateEtudiantModalComponent,
-    AddperiodeComponent
+    AddperiodeComponent,
+    AddNewRepetitionComponent
   ]
 })
 export class AppModule {

@@ -9,11 +9,11 @@
   <div class="row">
     <div class="col-sm-12">
       <p><a href="javascript:void(0)" (click)="showCrupdateRep()"
-            class="btn btn-raised mr-1 shadow-z-2 btn-primary">Add a new prof</a></p>
+            class="btn btn-raised mr-1 shadow-z-2 btn-primary">Add Repetition</a></p>
 
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title" style="display: inline-block">Professors</h4>
+          <h4 class="card-title" style="display: inline-block">Repetitions</h4>
           <input type='text' style='padding:8px;margin:15px auto;width:30%; display: inline-block; float: right'
                  placeholder='Type to filter the name column...' (keyup)='updateFilter($event)'/>
         </div>
@@ -26,24 +26,9 @@
                   {{value}}
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Nom" prop="nom">
+              <ngx-datatable-column name="Jour" prop="jour">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                   {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Prénom" prop="prenom">
-                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Email" prop="email">
-                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="Admin" prop="admin">
-                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  {{yesOrNo(value)}}
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column name="Actions" prop="id" sortable="false">

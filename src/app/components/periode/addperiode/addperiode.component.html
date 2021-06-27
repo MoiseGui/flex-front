@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="data.perdiod">Update Period</h2>
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="!data.perdiod">Create a new Period</h2>
+  <button type="button" (click)="close()" class="close-button no-style" tabindex="-1"><i
+    class="ft-x font-medium-3 mr-2"></i></button>
+</div>
+
+<form autocomplete="off" (submit)="confirm()" *ngIf="errors$ | async as errors" [formGroup]="form" ngNativeValidate>
+  <div class="many-inputs mat-dialog-content" mat-dialog-content>
+    <div class="input-container">
+      <label>Libelle</label>
+      <input *ngIf="data.perdiod" [value]="data.perdiod.libelle" type="text" formControlName="libelle" required>
+      <input *ngIf="!data.perdiod" type="text" formControlName="libelle" required>
+      <!--      <input *ngIf="!data.profil" type="text" formControlName="libelle" required>-->
+    </div>
+    <div class="input-container">
+      <label>Date Debut</label>
+      <input *ngIf="data.perdiod" [value]="data.perdiod.dateDeb" type="date" formControlName="dateDeb" required>
+      <input *ngIf="!data.perdiod" type="date" formControlName="dateDeb" required>
+      <!--      <input *ngIf="!data.profil" type="text" formControlName="libelle" required>-->
+    </div>
+    <div class="input-container">
+      <label>Date Fin</label>
+      <input *ngIf="data.perdiod" [value]="data.perdiod.dateFin" type="date" formControlName="dateFin" required>
+      <input *ngIf="!data.perdiod" type="date" formControlName="dateFin" required>
+    </div>
+  </div>
+
+  <div class="buttons right mat-dialog-actions" mat-dialog-actions>
+    <button (click)="close()" type="button" class="button cancel" mat-button>Cancel</button>
+    <button type="submit" mat-raised-button color="accent" class="action-button" [disabled]="loading$ | async">
+      <span *ngIf="data.perdiod">Update</span>
+      <span *ngIf="!data.perdiod">Create</span>
+    </button>
+  </div>
+</form>

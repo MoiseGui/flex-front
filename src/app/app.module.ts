@@ -1,6 +1,7 @@
 // import {CalendarsModule} from './components/calendar/calendar.module';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {CrupdateEtudiantModalComponent} from './components/etudiant/crupdate-etudiant-modal/crupdate-etudiant-modal.component';
+import {AddperiodeComponent} from './components/periode/addperiode/addperiode.component';
 import {CrupdateProfileModalComponent} from './components/profile/crupdate-profile-modal/crupdate-profile-modal.component';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule, MatDialogModule} from '@angular/material';
@@ -28,14 +29,14 @@ import {
 import {LoginPageComponent} from './components/login/login-page.component';
 import {CrupdateProfesseurModalComponent} from './components/professeur/crupdate-professeur-modal/crupdate-professeur-modal.component';
 import {ProfileDetailComponent} from './components/profile/profile-detail/profile-detail.component';
-import {AddNewEventComponent} from './components/special-event/addnewevent/addnewevent.component';
+import {AddNewRepetitionComponent} from './components/repetition/add-new-repetition/add-new-repetition.component';
+
 import {AuthService} from './shared/auth/auth.service';
 import {AuthGuard} from './shared/auth/auth-guard.service';
 import {GuestGard} from './shared/auth/guest-guard.service';
 import {SharedModule} from './shared/shared.module';
 import {ToastrComponent} from './shared/toastr/toastr.component';
 import {NGXToastrService} from './shared/toastr/toastr.service';
-import { SpecialEventComponent } from './components/special-event/special-event.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -51,7 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, ToastrComponent, LoginPageComponent, SpecialEventComponent],
+  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, ToastrComponent, LoginPageComponent],
   imports: [BrowserModule, BrowserAnimationsModule, ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -84,8 +85,8 @@ export function createTranslateLoader(http: HttpClient) {
     CrupdateProfileModalComponent,
     ProfileDetailComponent,
     CrupdateEtudiantModalComponent,
-    AddNewEventComponent
-
+    AddperiodeComponent,
+    AddNewRepetitionComponent
   ]
 })
 export class AppModule {

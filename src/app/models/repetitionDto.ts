@@ -2,12 +2,10 @@ import {Creneau} from './creneau';
 import {Event} from './event';
 import {Periode} from './periode';
 
-export interface Repetition {
-
+export interface RepetitionDto {
   id?: number
-  event: Event
-  periode: Periode
-  jour: number
-  creneau: Creneau;
-
+  eventId: number
+  periodeId: number
+  jourOrder: number
+  creaneauOrder: number;
 }

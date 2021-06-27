@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="data.repetition">Update Repetition</h2>
+  <h2 class="modal-title mat-dialog-title" mat-dialog-title *ngIf="!data.repetition">Create a new Repetition</h2>
+  <button type="button" (click)="close()" class="close-button no-style" tabindex="-1"><i
+    class="ft-x font-medium-3 mr-2"></i></button>
+</div>
+
+<!--eventId: [''],-->
+<!--periodeId: [''],-->
+<!--jourOrder: [''],-->
+<!--creaneauOrder: [''],-->
+<form autocomplete="off" *ngIf="errors$ | async as errors" [formGroup]="form" ngNativeValidate>
+  <div class="many-inputs mat-dialog-content" mat-dialog-content>
+    <div class="input-container">
+      <div class="form-group">
+        <label for="eventId">Event</label>
+        <select type="text" formControlName="eventId" id="eventId" required>
+          <option value="">Choose Event</option>
+          <option *ngFor="let event of all_events" value="{{event.id}}">{{event.nom}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="eventId">Period</label>
+        <select type="text" formControlName="periodeId" id="periodeId" required>
+          <option value="">Choose Period</option>
+          <option *ngFor="let periode of periode" value="{{periode.id}}">{{periode.libelle}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="jourOrder">jour</label>
+        <select type="text" formControlName="jourOrder" id="jourOrder" required>
+          <option value="">Choose Creneau</option>
+          <option *ngFor="let jour of jours" value="{{jour.id}}">{{jour.nom}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="creaneauOrder">Crenaux</label>
+        <select type="text" formControlName="creaneauOrder" id="creaneauOrder" required>
+          <option value="">Choose Creneau</option>
+          <option *ngFor="let cre of all_crenaux" value="{{cre.id}}">{{cre.heureDeb}} to {{cre.heureFin}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons right mat-dialog-actions" mat-dialog-actions>
+    <button (click)="close()" type="button" class="button cancel" mat-button>Cancel</button>
+    <button (click)="confirm()" mat-raised-button color="accent" class="action-button">
+      <span *ngIf="data.repetition">Update</span>
+      <span *ngIf="!data.repetition">Create</span>
+    </button>
+  </div>
+</form>

@@ -62,7 +62,7 @@ export class RepetitionFacade {
 
     this.repetitionService.update(id, rep).subscribe(response => {
       if (response.id) {
-        this.profileState.updateProfile(id, response);
+        this.repetitionState.update(id, response);
         message.next('Ok');
       } else {
         message.next(response.message);

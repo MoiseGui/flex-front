@@ -33,6 +33,17 @@ export class RepetitionState {
       this.repetitions$.next([...repetitions, repetition]);
     }
   }
+  
+  update(id: number, repetition: Repetition) {
+    const repetitions = this.repetitions$.getValue();
+      
+    for(let i = 0; i < repetitions.length ; i++)
+      if (repetitions[i].id == repetition.id)
+        repetitions[i] = repetition
+    
+    this.repetitions$.next[...repetitions]
+
+  }
 
   removeRepetition(id: number) {
     let repetitions = this.repetitions$.getValue();

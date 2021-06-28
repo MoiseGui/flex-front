@@ -1,3 +1,4 @@
+import { CalendarRepetition } from './../models/repetition';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
@@ -32,8 +33,8 @@ export class RepetitionService {
     return this.http.get<Repetition[]>(`${this.API}/`, {headers: this.headers});
   }
 
-  findById(id: number): Observable<Repetition> {
-    return this.http.get<Repetition>(`${this.API}/${id}`, {headers: this.headers});
+  findById(id: number): Observable<CalendarRepetition> {
+    return this.http.get<CalendarRepetition>(`${this.API}/${id}`, {headers: this.headers});
   }
 
   create(repetition: RepetitionDto): Observable<any> {

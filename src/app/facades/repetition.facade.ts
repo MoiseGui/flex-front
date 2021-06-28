@@ -28,6 +28,10 @@ export class RepetitionFacade {
     return this.repetitionState.getRepetitions$();
   }
 
+  findById(id: number){
+    return this.repetitionService.findById(id);
+  }
+
   addRepetition(repetition: Repetition): Observable<string> {
     let message = new Subject<string>();
     const repetitionDto = {

@@ -1,10 +1,12 @@
+import { CalendarRepetition } from './../../models/repetition';
+import { RepetitionFacade } from './../../facades/repetition.facade';
 import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef, Inject, OnInit
 } from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 import {
   startOfDay,
@@ -17,26 +19,26 @@ import {
   addHours
 } from 'date-fns';
 import * as events from 'events';
-import {BehaviorSubject, Subject, Subscription} from 'rxjs';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent
 } from 'angular-calendar';
-import {EventFacade} from '../../facades/event.facade';
-import {ProfileFacade} from '../../facades/profile.facade';
-import {SalleFacade} from '../../facades/salle.facade';
-import {SpecialEventFacade} from '../../facades/special-event.facade';
-import {Professeur} from '../../models/professeur';
-import {Profile} from '../../models/profile';
-import {Repetition} from '../../models/repetition';
-import {Salle} from '../../models/salle';
-import {Event, SpecialEvent} from '../../models/event';
-import {RepetitionService} from '../../services/repetition.service';
-import {NGXToastrService} from '../../shared/toastr/toastr.service';
-import {Modal} from '../../shared/ui/modal.service';
-import {format} from 'date-fns';
+import { EventFacade } from '../../facades/event.facade';
+import { ProfileFacade } from '../../facades/profile.facade';
+import { SalleFacade } from '../../facades/salle.facade';
+import { SpecialEventFacade } from '../../facades/special-event.facade';
+import { Professeur } from '../../models/professeur';
+import { Profile } from '../../models/profile';
+import { Repetition } from '../../models/repetition';
+import { Salle } from '../../models/salle';
+import { Event, SpecialEvent } from '../../models/event';
+import { RepetitionService } from '../../services/repetition.service';
+import { NGXToastrService } from '../../shared/toastr/toastr.service';
+import { Modal } from '../../shared/ui/modal.service';
+import { format } from 'date-fns';
 import * as moment from 'moment';
 
 const colors: any = {
@@ -62,7 +64,7 @@ const colors: any = {
 })
 
 export class CalendarsComponent implements OnInit {
-  @ViewChild('modalContent', {static: false}) modalContent: TemplateRef<any>;
+  @ViewChild('modalContent', { static: false }) modalContent: TemplateRef<any>;
   type_event: boolean = true;
   event_: Event = {
     nom: '',
@@ -101,43 +103,112 @@ export class CalendarsComponent implements OnInit {
     private fb: FormBuilder,
     private eventSFacade: SpecialEventFacade,
     private event_facade: EventFacade,
-    private repService: RepetitionService,
+    private repFacade: RepetitionFacade,
     private salleFacade: SalleFacade,
     private profileFacade: ProfileFacade,
     private toastService: NGXToastrService,
   ) {
     this.eventSFacade.setLoading(false);
     this.resetState();
+    this.loadEvents();
+
+    this.events$.subscribe(evs => {
+      this.events = evs;
+    })
+
+    this.salleFacade.getSalles$().subscribe(salles => {
+      this.salles = salles;
+    });
+
+    this.profileFacade.getProfiles$().subscribe(profils => {
+      this.profiles = profils;
+    });
   }
 
-  ngOnInit() {
-    this.sub_salles = this.salleFacade.getSalles$().subscribe((data) => {
-      this.salles = data;
-    });
-    this.sub_profiles = this.sub_profiles = this.profileFacade.getProfiles$().subscribe((data) => {
-      this.profiles = data;
-    });
+  ngOnInit() { }
+
+  loadEvents() {
     // handle event into calander
     this.event_facade.getEvents$().subscribe((evs) => {
       if (evs) {
-        this.all_events = evs;
-        this.all_events.forEach(el => {
+        evs.forEach(el => {
           console.log(el);
-          if (el.repetitions[0]) {
-            const id_rep: number = el.repetitions[0].id;
-            if (id_rep) {
-              this.repService.findById(id_rep).subscribe((rep) => {
-                console.log('repetition', rep);
-                let event_calendar: CalendarEvent = {
-                  start: subDays(endOfMonth(rep.periode.dateDeb), 3),
-                  end: addDays(endOfMonth(rep.periode.dateFin), 3),
-                  title: rep.event.nom,
-                  color: colors.blue
-                };
-                this.events.push(event_calendar);
+          el.repetitions.forEach(repetition => {
+            if (repetition.id) {
+              console.log("Rep_id ", repetition.id);
+              const rep = this.repFacade.findById(repetition.id).subscribe(rep => {
+                if (rep.id) {
+                  console.log('repetition', rep);
+                  // on doit être dans la période
+                  const periode = rep.periode;
+
+                  const tabDeb = periode.dateDeb.split("/");
+                  const tabFin = periode.dateFin.split("/");
+
+                  let mois = (new Date().getMonth() + 1) + ""
+                  mois = mois.length == 1 ? "0" + mois : mois
+
+                  let jour = new Date().getDate() + "";
+                  jour = jour.length == 1 ? "0" + jour : jour;
+                  const today = "" + new Date().getFullYear() + mois + jour
+
+
+                  const dateDeb = tabDeb[2] + tabDeb[1] + tabDeb[0];
+                  const dateFin = tabFin[2] + tabFin[1] + tabFin[0];
+
+                  if (today >= dateDeb && today <= dateFin) {
+                    console.log("Dans la période..")
+
+                    const today = new Date();
+
+                    let eventDate = new Date(today.setDate(today.getDate() - today.getDay() + rep.jour.ordre))
+
+                    let i = "";
+                    // remplir le calendar sur toute la durée de la période
+                    do {
+
+                      const start = new Date(eventDate.setHours(+rep.creneau.heureDeb.split(":")[0], 0))
+                      const end = new Date(eventDate.setHours(+rep.creneau.heureFin.split(":")[0], 0))
+
+                      // console.log(start);
+
+                      let event_calendar: CalendarEvent = {
+                        start: start,
+                        end: end,
+                        title: rep.event.nom,
+                        color: colors.blue
+                      };
+                      this.events$.next([...this.events, event_calendar]);
+                      // this.events.push(event_calendar);
+
+                      // next week
+                      eventDate = new Date(eventDate.setDate(eventDate.getDate() + 7));
+
+                      const y = eventDate.getFullYear()+"";
+                      let m = eventDate.getMonth() + "";
+                      m = m.length == 1 ? "0" + m : m + ""
+                      let j = eventDate.getDate() + "";
+                      j = j.length == 1 ? "0" + j : j + ""
+
+                      i = y+m+j
+
+                      // console.log("i....", i)
+
+                    } while (i <= dateFin);
+
+                  }
+                  else {
+                    console.log("Période dépassée...")
+                  }
+
+                }
+                else {
+                  console.log("Not Found...")
+                }
               });
+
             }
-          }
+          });
         });
       }
 
@@ -155,19 +226,21 @@ export class CalendarsComponent implements OnInit {
       if (this.event_special) {
         console.log('Special events :', this.event_special);
         this.event_special.forEach(el => {
-          let dateDeb = new Date(el.date+"T"+el.heureDeb);
-          let dateFin = new Date(el.date+"T"+el.heureFin);
-          let event_calendar: CalendarEvent = {
-            start: dateDeb,
-            end: dateFin,
-            title: el.nom,
-            color: colors.blue
-          };
-          this.events.push(event_calendar);
+          if (el.activated) {
+            let dateDeb = new Date(el.date + "T" + el.heureDeb);
+            let dateFin = new Date(el.date + "T" + el.heureFin);
+            let event_calendar: CalendarEvent = {
+              start: dateDeb,
+              end: dateFin,
+              title: el.nom,
+              color: colors.red
+            };
+            this.events$.next([...this.events, event_calendar]);
+            // this.events.push(event_calendar);
+          }
         });
       }
     });
-
   }
 
   public salles: Array<Salle>;
@@ -183,13 +256,13 @@ export class CalendarsComponent implements OnInit {
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({event}: { event: CalendarEvent }): void => {
+      onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edit this event', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({event}: { event: CalendarEvent }): void => {
+      onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter(iEvent => iEvent !== event);
         // this.handleEvent('This event is deleted!', event);
       }
@@ -199,6 +272,7 @@ export class CalendarsComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   events: CalendarEvent[] = [];
+  events$ = new BehaviorSubject<CalendarEvent[]>([]);
   // events: CalendarEvent[] = [
   //   {
   //     start: addHours(startOfDay(new Date()), 2),
@@ -219,7 +293,7 @@ export class CalendarsComponent implements OnInit {
   private resetState() {
   }
 
-  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -234,10 +308,10 @@ export class CalendarsComponent implements OnInit {
   }
 
   eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd
-                    }: CalendarEventTimesChangedEvent): void {
+    event,
+    newStart,
+    newEnd
+  }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
@@ -245,8 +319,8 @@ export class CalendarsComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = {event, action};
-    this.modal.open(this.modalContent, {size: 'lg'});
+    this.modalData = { event, action };
+    this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   addEvent(): void {
@@ -294,33 +368,41 @@ export class CalendarsComponent implements OnInit {
       this.event_.profiles.forEach(el => {
         profileIds.push(+el);
       });
-      //TRANSFORM DATE to "year-moi-day"
+
+      // TODO: la date ne change pas
+      console.log("voici la date: ", this.date_event_spec_start);
+      //TRANSFORM DATE to "year-mois-day"
       this.specialEvent.date = moment(this.date_event_spec_start).format('YYYY-MM-DD');
       this.specialEvent.profiles = profileIds;
       this.specialEvent.salleId = +this.event_.salleId;
-      this.specialEvent.heureDeb = this.date_event_spec_start.getHours() + ':' + this.date_event_spec_start.getMinutes();
-      this.specialEvent.heureFin = this.date_event_spec_end.getHours() + ':' + this.date_event_spec_end.getMinutes();
+      let startMin = this.date_event_spec_start.getMinutes()+"";
+      startMin = startMin.length == 1 ? "0"+startMin : startMin;
+      let endMin = this.date_event_spec_end.getMinutes()+"";
+      endMin = endMin.length == 1 ? "0"+endMin : endMin;
+      this.specialEvent.heureDeb = this.date_event_spec_start.getHours() + ':' + startMin;
+      this.specialEvent.heureFin = this.date_event_spec_end.getHours() + ':' + endMin;
       console.log(this.specialEvent);
       this.eventSFacade.addEvent(this.specialEvent).subscribe((res) => {
-        if (res == 'Ok') {
-          this.newEvent = {
-            title: this.event_.nom,
-            start: addHours(startOfDay(this.date_event_spec_start), 2),
-            end: this.date_event_spec_end,
-            color: colors.red.primary,
-            draggable: true,
-            resizable: {
-              beforeStart: true,
-              afterEnd: true
-            },
-            actions: this.actions,
-          };
-          this.events.push(this.newEvent);
+        if (typeof res == "string") {
+          this.toastService.typeError(res);
+        } else {
+          const el = res;
+          if (el.activated) {
+            let dateDeb = new Date(el.date + "T" + el.heureDeb);
+            let dateFin = new Date(el.date + "T" + el.heureFin);
+            let event_calendar: CalendarEvent = {
+              start: dateDeb,
+              end: dateFin,
+              title: el.nom,
+              color: colors.red
+            };
+            this.events$.next([...this.events, event_calendar]);
+            // this.events.push(event_calendar);
+          }
+
           this.toastService.typeSuccess(`Event Added successfully`);
           this.modal.dismissAll();
           this.resete();
-        } else {
-          this.toastService.typeError(res);
         }
       });
     }

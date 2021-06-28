@@ -58,7 +58,7 @@ export class EventFacade {
         if (response.id) {
           // add the newly created event to the state
           // pessimist approach
-          this.eventState.addEvent(event);
+          this.eventState.addEvent(response);
           // put verification message to OK (needed in validations)
           message.next('Ok');
         } else {

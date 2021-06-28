@@ -38,7 +38,7 @@
             <select [(ngModel)]="event_.profiles" name="profiles" id="profiles" class="form-control"
                     type="text"
                     required multiple>
-              <option value="">Choose Profile</option>
+              <!--<option value="">Choose Profile</option>-->
               <option *ngFor="let profile of profiles" value="{{profile.id}}">{{profile.libelle}}</option>
             </select>
           </div>
@@ -105,7 +105,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="submit" class="btn btn-outline-secondary" (click)="confirm()">OK</button>
+      <button type="submit" class="btn btn-outline-secondary" (click)="confirm()">Ajouter</button>
     </div>
   </ng-template>
 
@@ -185,7 +185,7 @@
                                    (eventClicked)="handleEvent('Clicked', $event.event)"
                                    (eventTimesChanged)="eventTimesChanged($event)">
           </mwl-calendar-month-view>
-          <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+          <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events$ | async" [refresh]="refresh"
                                   (eventClicked)="handleEvent('Clicked', $event.event)"
                                   (eventTimesChanged)="eventTimesChanged($event)" [weekStartsOn]="1" [dayStartHour]="8"
                                   [dayEndHour]="18" [hourSegments]="1">

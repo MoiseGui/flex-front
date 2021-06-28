@@ -53,7 +53,7 @@ export class EventState {
     // get the current state
     const events = this.events$.getValue()
     // filter the state !
-    events.filter(e => e.id != id)
+    events = events.filter(e => e.id != id)
     // update the state stream
     this.events$.next([...events])
   }

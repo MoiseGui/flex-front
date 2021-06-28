@@ -317,7 +317,6 @@ export class CalendarsComponent implements OnInit {
       this.specialEvent.salleId = +this.event_.salleId;
       this.specialEvent.heureDeb = this.date_event_spec_start.getHours() + ':' + this.date_event_spec_start.getMinutes();
       this.specialEvent.heureFin = this.date_event_spec_end.getHours() + ':' + this.date_event_spec_end.getMinutes();
-      console.log(this.specialEvent);
       this.eventSFacade.addEvent(this.specialEvent).subscribe((res) => {
         if (res == 'Ok') {
           this.newEvent = {

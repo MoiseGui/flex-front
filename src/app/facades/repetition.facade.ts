@@ -56,6 +56,24 @@ export class RepetitionFacade {
     );
     return message;
   }
+  
+  updateRepetition(id: number, rep: Repetition) {
+    let message = new Subject<string>();
+
+    this.repetitionService.update(id, rep).subscribe(response => {
+      if (response.id) {
+        this.profileState.updateProfile(id, response);
+        message.next('Ok');
+      } else {
+        message.next(response.message);
+      }
+    }, error => {
+      this.setLoading(false);
+      message.next(this.handleError(error));
+    });
+
+    return message;
+  }
 
   deleteRepetition(id: number) {
     this.repetitionService.delete(id).subscribe(

@@ -61,8 +61,11 @@ export class AddNewRepetitionComponent implements OnInit {
   }
 
   event_selected: Event;
+  new_events: Array<Event>;
   period_selected: Periode;
+  new_periods: Array<Periode>;
   crenaux_selected: Creneau;
+  new_crenaux: Array<Creneau>;
   jour: Jour;
 
   ngOnInit() {
@@ -72,12 +75,24 @@ export class AddNewRepetitionComponent implements OnInit {
     }
     this.eventFacade.getEvents$().subscribe((events) => {
       this.all_events = events;
+      if (this.data.repetition && events) {
+        this.new_events = this.all_events.filter(el => el.id !== this.event_selected.id);
+        console.log('events :', this.new_events);
+      }
     });
     this.crenauxFacade.findAll().subscribe((crenaux) => {
       this.all_crenaux = crenaux;
+      if (this.data.repetition && crenaux) {
+        this.new_crenaux = this.all_crenaux.filter(el => el.id !== this.crenaux_selected.id);
+        console.log('new crenaux :', this.new_crenaux);
+      }
     });
     this.perdiodFacade.gettPeriods$().subscribe((periodes) => {
       this.periode = periodes;
+      if (this.data.repetition && periodes) {
+        this.new_periods = this.periode.filter(el => el.id !== this.period_selected.id);
+        console.log('new periods :', this.new_periods);
+      }
     });
     this.jourService.findAll().subscribe((jours) => {
       this.jours = jours;
@@ -119,6 +134,7 @@ export class AddNewRepetitionComponent implements OnInit {
         {
           creneau: crenaux, event: event, jour: +rep.jourOrder, periode: period
         };
+      console.log('repetition :', repetition);
       this.repetitionFacade.addRepetition(repetition).subscribe((res) => {
         if (res == 'Ok') {
           if (this.data.repetition) {
@@ -132,7 +148,8 @@ export class AddNewRepetitionComponent implements OnInit {
         }
       });
     } else {
-
+      console.log('update ');
+      console.log(this.data.repetition);
     }
 
   }

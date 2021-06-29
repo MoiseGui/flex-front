@@ -31,8 +31,8 @@ export class SpecialEventFacade {
     return this.specialEventState.getSpecialEvents$();
   }
 
-  addEvent(event: SpecialEvent): Observable<string> {
-    let message = new Subject<string>();
+  addEvent(event: SpecialEvent): Observable<any> {
+    let message = new Subject<any>();
     // calling http service to add an event
     this.specialEventService.createEvent(event).subscribe(
       // in success
@@ -40,9 +40,9 @@ export class SpecialEventFacade {
         if (response.id) {
           // add the newly created event to the state
           // pessimist approach
-          this.specialEventState.addSpecialEvent(event);
+          this.specialEventState.addSpecialEvent(response);
           // put verification message to OK (needed in validations)
-          message.next('Ok');
+          message.next(response);
         } else {
           message.next(response.message);
         } // handling unexpected success response from the server

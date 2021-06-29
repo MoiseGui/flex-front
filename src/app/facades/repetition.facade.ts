@@ -28,14 +28,19 @@ export class RepetitionFacade {
     return this.repetitionState.getRepetitions$();
   }
 
+  findById(id: number) {
+    return this.repetitionService.findById(id);
+  }
+
   addRepetition(repetition: Repetition): Observable<string> {
     let message = new Subject<string>();
     const repetitionDto = {
       'eventId': repetition.event.id,
       'periodeId': repetition.periode.id,
       'jourOrder': repetition.jour,
-      'creaneauOrder': repetition.creneau.id
+      'creaneauOrder': repetition.creneau.ordre
     };
+    console.log('rep dto :', repetitionDto);
     this.repetitionService.create(repetitionDto).subscribe(
       response => {
         if (response.id) {

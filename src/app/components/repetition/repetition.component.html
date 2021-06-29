@@ -41,6 +41,11 @@
                   {{value.libelle}}
                 </ng-template>
               </ngx-datatable-column>
+              <ngx-datatable-column name="Creneau" prop="creneau">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  {{value.heureDeb}} to {{value.heureFin}}
+                </ng-template>
+              </ngx-datatable-column>
               <ngx-datatable-column name="Actions" prop="id" sortable="false">
                 <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
                   <span title="Remove">

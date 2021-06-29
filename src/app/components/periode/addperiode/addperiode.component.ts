@@ -9,6 +9,7 @@ import {Periode} from '../../../models/periode';
 import {Professeur} from '../../../models/professeur';
 import {NGXToastrService} from '../../../shared/toastr/toastr.service';
 import {Modal} from '../../../shared/ui/modal.service';
+import * as moment from 'moment';
 
 export interface CrupdatePeriodeModalData {
   perdiod: Periode;
@@ -62,6 +63,12 @@ export class AddperiodeComponent implements OnInit {
 
   confirm() {
     const period: Periode = this.form.value;
+    moment().format('MMM Do YY');
+    const date_str_deb = moment(period.dateDeb).format('DD/MM/YYYY');
+    const date_str_fin = moment(period.dateFin).format('DD/MM/YYYY');
+    period.dateDeb = date_str_deb;
+    period.dateFin = date_str_fin;
+    console.log(period);
     this.periodeFacade.setLoading(true);
     this.periodeFacade.addperiode(period).subscribe((response) => {
       if (response === 'Ok') {

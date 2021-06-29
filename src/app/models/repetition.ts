@@ -11,3 +11,17 @@ export interface Repetition {
   creneau: Creneau;
 
 }
+
+export interface CalendarRepetition {
+
+  id?: number
+  event: Event
+  periode: Periode
+  jour: {
+    id?: number
+    nom: string
+    ordre: number
+  }
+  creneau: Creneau;
+
+}

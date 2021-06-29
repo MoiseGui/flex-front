@@ -19,8 +19,8 @@
           <option *ngFor="let event of all_events" value="{{event.id}}">{{event.nom}}</option>
         </select>
         <select *ngIf="this.data.repetition" type="text" formControlName="eventId" required>
-          <option selected="true" value="{{this.data.repetition.event.id}}">{{this.data.repetition.event.nom}}</option>
-          <option *ngFor="let event of all_events"
+          <option selected="true" value="{{this.event_selected.id}}">{{this.event_selected.nom}}</option>
+          <option *ngFor="let event of new_events"
                   value="{{event.id}}">{{event.nom}}</option>
         </select>
       </div>
@@ -32,8 +32,8 @@
         </select>
         <select *ngIf="this.data.repetition" type="text" formControlName="periodeId" required>
           <option selected="true"
-                  value="{{this.data.repetition.periode.id}}">{{this.data.repetition.periode.libelle}}</option>
-          <option *ngFor="let periode of periode" value="{{periode.id}}">{{periode.libelle}}</option>
+                  value="{{this.period_selected.id}}">{{this.period_selected.libelle}}</option>
+          <option *ngFor="let periode of new_periods" value="{{periode.id}}">{{periode.libelle}}</option>
         </select>
       </div>
 
@@ -55,9 +55,9 @@
           <option *ngFor="let cre of all_crenaux" value="{{cre.id}}">{{cre.heureDeb}} to {{cre.heureFin}}</option>
         </select>
         <select *ngIf="data.repetition" type="text" formControlName="creaneauOrder" required>
-          <option selected="true" value="{{this.data.repetition.creneau.id}}">{{this.data.repetition.creneau.heureDeb}}
-            +{{this.data.repetition.creneau.heureFin}}</option>
-          <option *ngFor="let cre of all_crenaux" value="{{cre.id}}">{{cre.heureDeb}} to {{cre.heureFin}}</option>
+          <option selected="true" value="{{this.crenaux_selected.id}}">{{this.crenaux_selected.heureDeb}}
+            +{{this.crenaux_selected.heureFin}}</option>
+          <option *ngFor="let cre of new_crenaux" value="{{cre.id}}">{{cre.heureDeb}} to {{cre.heureFin}}</option>
         </select>
       </div>
     </div>

@@ -50,6 +50,13 @@ export class RepetitionService {
       eventId, periodeId, jourOrder, creaneauOrder
     }, {headers: this.headers});
   }
+  
+  update(id: number, repetition: Repetition): Observable<Repetition> {
+    const {eventId, jourOrder, creaneauOrder, periodeId} = repetition;
+    return this.http.put<Repetition>(`${this.API}/${this.id}`,{
+      eventId, periodeId, jourOrder, creaneauOrder
+    }, {headers: this.headers});
+  }
 
   create2(repetition: RepetitionDto): Observable<any> {
     // jour === jourOrder !!!!!!!!!!!!!!!!!!!!!!!!

@@ -108,7 +108,7 @@ export class CalendarsComponent implements OnInit {
     private toastService: NGXToastrService,
   ) {
     this.eventSFacade.setLoading(false);
-    this.resetState();
+    // this.resetState();
     this.loadEvents();
 
     this.events$.subscribe(evs => {
@@ -130,6 +130,7 @@ export class CalendarsComponent implements OnInit {
   loadEvents() {
     // handle event into calander
     this.event_facade.getEvents$().subscribe((evs) => {
+      // this.events = [];
       if (evs) {
         evs.forEach(el => {
           console.log(el);
@@ -173,7 +174,7 @@ export class CalendarsComponent implements OnInit {
 
                       // console.log(start);
 
-                      let event_calendar: CalendarEvent = {
+                      const event_calendar: CalendarEvent = {
                         start: start,
                         end: end,
                         title: rep.event.nom,
@@ -221,6 +222,7 @@ export class CalendarsComponent implements OnInit {
     });
     //  handle Special event  into calander
     this.eventSFacade.getEvents$().subscribe((eventSpecial) => {
+      // this.events = [];
       this.event_special = eventSpecial;
       if (this.event_special) {
         console.log('Special events :', this.event_special);
@@ -290,6 +292,9 @@ export class CalendarsComponent implements OnInit {
   activeDayIsOpen: boolean = true;
 
   private resetState() {
+    this.events$.next([]);
+    this.events = [];
+    this.loadEvents();
   }
 
   dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
@@ -355,7 +360,7 @@ export class CalendarsComponent implements OnInit {
           // this.events.push(this.newEvent);
           this.toastService.typeSuccess(`Event Added successfully`);
           this.modal.dismissAll();
-          this.resete();
+          this.resetState();
         } else {
           this.toastService.typeError(`${res}`);
         }
@@ -386,23 +391,23 @@ export class CalendarsComponent implements OnInit {
         if (typeof res == 'string') {
           this.toastService.typeError(res);
         } else {
-          const el = res;
-          if (el.activated) {
-            let dateDeb = new Date(el.date + 'T' + el.heureDeb);
-            let dateFin = new Date(el.date + 'T' + el.heureFin);
-            let event_calendar: CalendarEvent = {
-              start: dateDeb,
-              end: dateFin,
-              title: el.nom,
-              color: colors.red
-            };
-            this.events$.next([...this.events, event_calendar]);
-            // this.events.push(event_calendar);
-          }
+          // const el = res;
+          // if (el.activated) {
+          //   let dateDeb = new Date(el.date + 'T' + el.heureDeb);
+          //   let dateFin = new Date(el.date + 'T' + el.heureFin);
+          //   let event_calendar: CalendarEvent = {
+          //     start: dateDeb,
+          //     end: dateFin,
+          //     title: el.nom,
+          //     color: colors.red
+          //   };
+          //   this.events$.next([...this.events, event_calendar]);
+          //   // this.events.push(event_calendar);
+          // }
 
           this.toastService.typeSuccess(`Event Added successfully`);
           this.modal.dismissAll();
-          this.resete();
+          this.resetState();
         }
       });
     }

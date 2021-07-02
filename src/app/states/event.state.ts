@@ -51,7 +51,7 @@ export class EventState {
 
   deleteEvent(id: number) {
     // get the current state
-    const events = this.events$.getValue()
+    let events = this.events$.getValue()
     // filter the state !
     events = events.filter(e => e.id != id)
     // update the state stream
